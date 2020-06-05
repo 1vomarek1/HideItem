@@ -1,0 +1,159 @@
+#    ██╗░░██╗██╗██████╗░███████╗██╗████████╗███████╗███╗░░░███╗
+#    ██║░░██║██║██╔══██╗██╔════╝██║╚══██╔══╝██╔════╝████╗░████║
+#    ███████║██║██║░░██║█████╗░░██║░░░██║░░░█████╗░░██╔████╔██║
+#    ██╔══██║██║██║░░██║██╔══╝░░██║░░░██║░░░██╔══╝░░██║╚██╔╝██║
+#    ██║░░██║██║██████╔╝███████╗██║░░░██║░░░███████╗██║░╚═╝░██║
+#    ╚═╝░░╚═╝╚═╝╚═════╝░╚══════╝╚═╝░░░╚═╝░░░╚══════╝╚═╝░░░░░╚═╝
+#
+#    HideItem | Configuration
+#    by 1vomarek1
+#
+#    Special thanks to qKing12 for giving me source code of his HideItem and letting me re-code it
+#    v1.0 - 2.5.2 | qKing12
+#    v3.0 | 1vomarek1
+#
+#    About:
+#    | What is HideItem?
+#     HideItem is plugin used to give players option to hide & show all players.
+#     Plugins like HideItem are usualy used on lobbies.
+#
+#    | Does HideItem support vanish plugins?
+#     Yes, HideItem does support plugins like PremiumVanish, SuperVanish, VanishNoPacket
+
+# please do NOT modify this option
+version: ${project.version}
+
+# +----------------------------------------------------------------------------------------------+ #
+# |                                                                                              | #
+# |                                       STORAGE SETTINGS                                       | #
+# |                                                                                              | #
+# |                            Controls of storage method of HideItem                            | #
+# |                                                                                              | #
+# +----------------------------------------------------------------------------------------------+ #
+#
+#  Storage method can be either MySQL or File
+#
+# Storage method can also be set to none in case you don't want to save player data
+#
+# Possible options:
+#   MySQL | Data will be saved to remote MySQL database
+#   File | Data will be saved to data.yml file
+#   none | Data won't be saved (after restart/reconnect the plugin won't remember if you have hidden players
+#
+storage-method: "none"
+
+#
+# MySQL settings (Ignore if not using MySQL storage method)
+#   !!!        Using root user is not recommended        !!!
+#
+mysql:
+  host: "localhost"
+  port: 3306
+  database: "HideItem"
+  table: "HideItem"
+  user: "root"
+  password: ""
+
+
+# +----------------------------------------------------------------------------------------------+ #
+# |                                         ITEM SETTINGS                                        | #
+# |                                                                                              | #
+# |                      Here you can specify what item players should have                      | #
+# +----------------------------------------------------------------------------------------------+ #
+
+# What slot should Hide item be? (Starts at 1 & ends at 9)
+slot: 9
+
+# if you set this to true it will put the item in the first free slot  (disables slot fearture)
+first-free-slot: false
+
+# If set to true item can't be dropped or moved inside of inventory
+fixed-item: true
+
+# Settings of item when all players are visible
+hide-item:
+  material: "INK_SACK:10"
+  name: "&eHide Players &7(Shown)"
+  lore:
+    - '&aClick &7to hide players'
+
+# Settings of item when all players are hidden
+show-item:
+  material: "INK_SACK:8"
+  name: '&eHide Players &7(Hidden)'
+  lore:
+    - '&aClick &7to show players'
+
+# +----------------------------------------------------------------------------------------------+ #
+# |                                            MESSAGES                                          | #
+# |                                                                                              | #
+# |                            Customize messages that HideItem sends                            | #
+# +----------------------------------------------------------------------------------------------+ #
+
+
+# Messages send when player hides / shows all players
+hide-message: '&7All players are now hidden!'
+show-message: '&aAll players are now visible!'
+# %cooldown% can be used to show how many seconds are left until command / item can be used again
+cooldown-message: '&eYou are in cooldown for %cooldown% more seconds.'
+
+no-permission-message: "&cYou don't have permission to use this command"
+
+# +----------------------------------------------------------------------------------------------+ #
+# |                                           COMMANDS                                           | #
+# |                                                                                              | #
+# |                                Settings of hideItem command                                  | #
+# +----------------------------------------------------------------------------------------------+ #
+
+# What this option does is it toggles if following aliases of hide command will be available
+# If aliases aren't enabled you can use only /hideitem toggle, /hideitem hide, /hideitem show
+# If aliases are enabled you can also use configurable command to toggle, hide or show players
+
+# Aliases can't be used if disable-commands is true
+use-aliases: true
+
+# What commands players use to toggle other players
+# If use-aliases is false or disable-commands is true following settings can't be used
+show-command-alias: '/hide'
+hide-command-alias: '/show'
+toggle-command-alias: '/toggleplayers'
+
+
+
+# +----------------------------------------------------------------------------------------------+ #
+# |                                        OTHER SETTINGS                                        | #
+# |                                                                                              | #
+# |                                   Other HideItem settings                                    | #
+# +----------------------------------------------------------------------------------------------+ #
+
+
+# Cooldown in seconds
+cooldown: 5
+
+# Here you can disable commands / items
+disable-items: false
+disable-commands: false
+
+#If you set this to false, players will be hidden on join
+#and will need to click the item to show them
+default-state-shown: true
+
+
+# !!!!!!!!!!                                CONFIG UPDATES                                !!!!!!!!!!
+# What this option does is if you update to next version your current config will be renamed to
+# config.old.yml and new one will be generated (Requires you to manualy update new config.yml)
+rename-old-config: true
+#     IF SET TO FALSE PLUGIN WILL ONLY USE DEFAULT CONFIG VALUES FOR NEW/RENAMED CONFIG VALUES     #
+
+
+
+# +----------------------------------------------------------------------------------------------+ #
+# |                                         COMING SOON                                          | #
+# |                                                                                              | #
+# |                     Settings that will be added / re-added in the future                     | #
+# +----------------------------------------------------------------------------------------------+ #
+
+
+# World System
+# Keep Visible
+

@@ -1,0 +1,33 @@
+name: HideItem
+version: ${project.version}
+main: com.vomarek.HideItem.HideItem
+authors: [1vomarek1]
+commands:
+  hideitem:
+    description: "Default command of HideItem."
+permissions:
+  hideitem:
+    "*":
+      description: "All permissions of HideItem"
+      default: op
+      children:
+        hideitem.admin: true
+        hideitem.reload: true
+        hideitem.show: true
+        hideitem.hide: true
+        hideitem.toggle: true
+    admin:
+      description: "Permission to use admin commands of HideItem"
+      default: op
+      children:
+        hideitem.reload: true
+    reload:
+      description: "Permission to use admin commands of HideItem"
+      default: op
+
+    command.show:
+      description: "Permission to use command to show all players"
+    command.hide:
+      description: "Permission to use command to hide all players"
+    command.toggle:
+      description: "Permission to use command to toggle all players"
