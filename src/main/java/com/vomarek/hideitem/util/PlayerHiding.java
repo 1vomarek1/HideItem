@@ -1,6 +1,6 @@
-package com.vomarek.HideItem.Util;
+package com.vomarek.hideitem.util;
 
-import com.vomarek.HideItem.HideItem;
+import com.vomarek.hideitem.HideItem;
 import org.bukkit.entity.Player;
 import org.bukkit.metadata.MetadataValue;
 
@@ -16,7 +16,7 @@ public class PlayerHiding {
     }
 
     public void showSinglePlayer(final Player player, final Player target) {
-        if (isVanished(target)) return;
+        if (isVanished(target) && !player.hasPermission("hideitem.seevanished")) return;
         player.hidePlayer(plugin, target);
     }
 
@@ -28,7 +28,7 @@ public class PlayerHiding {
 
     public void show(final Player player) {
         for (final Player p : plugin.getServer().getOnlinePlayers()) {
-            if (isVanished(p)) continue;
+            if (isVanished(p) && !player.hasPermission("hideitem.seevanished")) continue;
             player.showPlayer(plugin, p);
         }
     }

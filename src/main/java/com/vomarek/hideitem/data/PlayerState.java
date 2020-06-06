@@ -1,11 +1,10 @@
-package com.vomarek.HideItem.Data;
+package com.vomarek.hideitem.data;
 
-import com.vomarek.HideItem.HideItem;
+import com.vomarek.hideitem.HideItem;
 import org.bukkit.entity.Player;
 
 import java.io.File;
 import java.io.IOException;
-import java.sql.Struct;
 import java.util.HashMap;
 
 public class PlayerState {

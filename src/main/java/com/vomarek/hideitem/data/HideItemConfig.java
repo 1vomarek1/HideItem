@@ -1,6 +1,6 @@
-package com.vomarek.HideItem.Data;
+package com.vomarek.hideitem.data;
 
-import com.vomarek.HideItem.HideItem;
+import com.vomarek.hideitem.HideItem;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.configuration.InvalidConfigurationException;
@@ -19,37 +19,48 @@ public class HideItemConfig {
     private HideItem plugin;
     private YamlConfiguration config;
 
+
+    /* Data storage */
     private String STORAGE_METHOD;
     private MySQL MYSQL;
 
-    private Boolean LOBBY_SERVER;
+    /* Disabled features */
     private Boolean DISABLE_ITEMS;
     private Boolean DISABLE_COMMANDS;
-    private Boolean DEFAULT_SHOWN;
 
+    /* Item settings */
     private ItemStack HIDE_ITEM;
     private ItemStack SHOW_ITEM;
     private Boolean FIRST_FREE_SLOT;
     private Integer ITEM_SLOT;
     private Boolean FIXED_ITEM;
 
+    /* Messages */
     private String SHOW_MESSAGE;
     private String HIDE_MESSAGE;
     private String COOLDOWN_MESSAGE;
     private String NO_PERMISSION_MESSAGE;
 
-    private Integer COOLDOWN;
-
+    /* Commands */
     private Boolean USE_ALIASES;
     private String HIDE_ALIAS;
     private String SHOW_ALIAS;
     private String TOGGLE_ALIAS;
+
+    /* Permissions */
+    private Boolean REQUIRE_PERMISSION_FOR_ITEMS;
+    private Boolean REQUIRE_PERMISSION_FOR_COMMANDS;
+
+    /* Other */
+    private Integer COOLDOWN;
+    private Boolean DEFAULT_SHOWN;
 
     public HideItemConfig(HideItem plugin) {
         this.plugin = plugin;
         loadConfig();
     }
 
+    /* Getting data from config */
     private void loadConfig() {
 
         try {
@@ -81,7 +92,7 @@ public class HideItemConfig {
 
             } else {
 
-                if (config.getString("version") != plugin.getDescription().getVersion()) {
+                if (!config.getString("version", "").equalsIgnoreCase(plugin.getDescription().getVersion())) {
                     if (!config.getBoolean("rename-old-config", true)) {
 
                         plugin.getServer().getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', "&3&lHideItem &f| &cYou have outdated config in '/plugins/HideItem/' please update it!"));
@@ -113,6 +124,10 @@ public class HideItemConfig {
         } catch (IOException | InvalidConfigurationException e) {
             e.printStackTrace();
         }
+
+        //
+        // Storage settings
+        //
 
         // Storage method
         STORAGE_METHOD = config.getString("storage-method", "none").toLowerCase();
@@ -150,15 +165,13 @@ public class HideItemConfig {
 
         }
 
-
-        // Lobby server
-        LOBBY_SERVER = config.getBoolean("lobby-server", false);
-
         // Disabled feartures
         DISABLE_ITEMS = config.getBoolean("disable-items", false);
         DISABLE_COMMANDS = config.getBoolean("disable-commands", false);
 
+        //
         // Items
+        //
 
         // Hide item
         Material hideMaterial = Material.getMaterial(config.getString("hide-item.material", "INK_SACK:0").split(":")[1]);
@@ -202,31 +215,45 @@ public class HideItemConfig {
         ITEM_SLOT = config.getInt("item-slot", 8);
         FIXED_ITEM = config.getBoolean("fixed-item", true);
 
+        //
+        // Messages
+        //
+
         SHOW_MESSAGE = config.getString("show-message", "&aAll players are now visible!");
         HIDE_MESSAGE = config.getString("hide-message", "&aAll players are now hidden!");
         COOLDOWN_MESSAGE = config.getString("cooldown-message", "&eYou are in cooldown for %cooldown% more seconds.");
-        NO_PERMISSION_MESSAGE = config.getString("no-permission-message", "&eYou don't have permission to do that!");
+        NO_PERMISSION_MESSAGE = config.getString("no-permission-message", "&cYou don't have permission to do this!");
 
-
-        // Other settings
-        COOLDOWN = config.getInt("cooldown", 5);
-        DEFAULT_SHOWN = config.getBoolean("default-state-shown", true);
-
+        //
         // Commands & aliases
+        //
+
         USE_ALIASES = config.getBoolean("use-aliases", true);
         SHOW_ALIAS = config.getString("show-command-alias", "/show");
         HIDE_ALIAS = config.getString("hide-command-alias", "/hide");
         TOGGLE_ALIAS = config.getString("toggle-command-alias", "/toggleplayers");
+
+        //
+        // Permissions
+        //
+
+        REQUIRE_PERMISSION_FOR_COMMANDS = config.getBoolean("require-permission-for-commands", false);
+        REQUIRE_PERMISSION_FOR_ITEMS = config.getBoolean("require-permission-for-itmes", false);
+
+        //
+        // Other settings
+        //
+        COOLDOWN = config.getInt("cooldown", 5);
+        DEFAULT_SHOWN = config.getBoolean("default-state-shown", true);
     }
 
     public void reload() {
         loadConfig();
     }
 
-    public Boolean LOBBY_SERVER() {
-        return LOBBY_SERVER;
-    }
-
+    //
+    // Disabled feartures
+    //
     public Boolean DISABLE_ITEMS() {
         return DISABLE_ITEMS;
     }
@@ -234,6 +261,10 @@ public class HideItemConfig {
     public Boolean DISABLE_COMMANDS() {
         return DISABLE_COMMANDS;
     }
+
+    //
+    // Data Storage
+    //
 
     public String STORAGE_METHOD() {
         return STORAGE_METHOD;
@@ -243,14 +274,13 @@ public class HideItemConfig {
         return MYSQL;
     }
 
-    public Boolean DEFAULT_SHOWN() {
-        return DEFAULT_SHOWN;
-    }
+    //
+    // Items
+    //
 
     public ItemStack HIDE_ITEM() {
         return HIDE_ITEM;
     }
-
 
     public boolean isHideItem(ItemStack i) {
         if (!i.hasItemMeta()) return false;
@@ -268,6 +298,22 @@ public class HideItemConfig {
         return i.equals(SHOW_ITEM);
     }
 
+    public Boolean FIRST_FREE_SLOT() {
+        return FIRST_FREE_SLOT;
+    }
+
+    public Integer ITEM_SLOT() {
+        return ITEM_SLOT;
+    }
+
+    public Boolean FIXED_ITEM() {
+        return FIXED_ITEM;
+    }
+
+    //
+    // Messages
+    //
+
     public String SHOW_MESSAGE() {
         return SHOW_MESSAGE;
     }
@@ -284,22 +330,9 @@ public class HideItemConfig {
         return NO_PERMISSION_MESSAGE;
     }
 
-    public Boolean FIRST_FREE_SLOT() {
-        return FIRST_FREE_SLOT;
-    }
-
-    public Integer ITEM_SLOT() {
-        return ITEM_SLOT;
-    }
-
-    public Boolean FIXED_ITEM() {
-        return FIXED_ITEM;
-    }
-
-    public Integer COOLDOWN() {
-        return COOLDOWN;
-    }
-
+    //
+    // Commands & aliases
+    //
 
     public Boolean USE_ALIASES() {
         return USE_ALIASES;
@@ -316,4 +349,30 @@ public class HideItemConfig {
     public String TOGGLE_ALIAS() {
         return TOGGLE_ALIAS;
     }
+
+    //
+    // Permissions
+    //
+
+    public Boolean REQUIRE_PERMISSION_FOR_ITEMS() {
+        return REQUIRE_PERMISSION_FOR_ITEMS;
+    };
+
+    public Boolean REQUIRE_PERMISSION_FOR_COMMANDS() {
+        return REQUIRE_PERMISSION_FOR_COMMANDS;
+    };
+
+    //
+    // Other settings
+    //
+
+    public Integer COOLDOWN() {
+        return COOLDOWN;
+    }
+
+    public Boolean DEFAULT_SHOWN() {
+        return DEFAULT_SHOWN;
+    }
+
+
 }

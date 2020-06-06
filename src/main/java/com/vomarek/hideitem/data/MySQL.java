@@ -1,8 +1,7 @@
-package com.vomarek.HideItem.Data;
+package com.vomarek.hideitem.data;
 
 import org.bukkit.entity.Player;
 
-import javax.xml.transform.Result;
 import java.sql.*;
 
 public class MySQL {

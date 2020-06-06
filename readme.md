@@ -1,7 +1,7 @@
 # HideItem
 **by 1vomarek1**    
 HideItem is spigot plugin used to give players option to toggle visibility of other players.  
-This plugin was originaly created by **qKing12**.
+This plugin was originaly created by **qKing12**. [Link](https://www.spigotmc.org/resources/hideitem-hide-players-1-8-1-15.70313/)
 
 ## API
 
@@ -13,12 +13,12 @@ Replace {VERSION} with the version listed at the top of this page.
 <repositories>
     <repository>
         <id>hideitem</id>
-        <url>https://repo.vomarek.com/repository/HideItem/</url>
+        <url>https://repo.vomarek.com/repository/hideitem/</url>
     </repository>
 </repositories>
 <dependencies>
     <dependency>
-        <groupId>com.vomarek.HideItem</groupId>
+        <groupId>com.vomarek.hideitem</groupId>
         <artifactId>HideItem</artifactId>
         <version>{VERSION}</version>
         <scope>provided</scope>

@@ -1,6 +1,6 @@
 name: HideItem
 version: ${project.version}
-main: com.vomarek.HideItem.HideItem
+main: com.vomarek.hideitem.HideItem
 authors: [1vomarek1]
 commands:
   hideitem:
@@ -24,10 +24,11 @@ permissions:
     reload:
       description: "Permission to use admin commands of HideItem"
       default: op
-
-    command.show:
+    seevanished:
+      description: "Permission to see vanished people after unhiding players"
+    show:
       description: "Permission to use command to show all players"
-    command.hide:
+    hide:
       description: "Permission to use command to hide all players"
-    command.toggle:
+    toggle:
       description: "Permission to use command to toggle all players"

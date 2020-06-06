@@ -4,9 +4,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.vomarek.HideItem</groupId>
+    <groupId>com.vomarek.hideitem</groupId>
     <artifactId>HideItem</artifactId>
-    <version>3.0</version>
+    <version>3.0-BETA</version>
     <packaging>jar</packaging>
 
     <name>HideItem</name>
@@ -72,7 +72,7 @@
     <distributionManagement>
         <repository>
             <id>nexusrepo</id>
-            <url>https://repo.vomarek.com/repository/HideItemAPI/</url>
+            <url>https://repo.vomarek.com/repository/hideitem/</url>
         </repository>
     </distributionManagement>
 </project>

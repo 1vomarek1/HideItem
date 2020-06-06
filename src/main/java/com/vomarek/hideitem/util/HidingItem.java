@@ -1,6 +1,6 @@
-package com.vomarek.HideItem.Util;
+package com.vomarek.hideitem.util;
 
-import com.vomarek.HideItem.HideItem;
+import com.vomarek.hideitem.HideItem;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 

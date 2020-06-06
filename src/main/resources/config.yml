@@ -61,6 +61,9 @@ mysql:
 # |                      Here you can specify what item players should have                      | #
 # +----------------------------------------------------------------------------------------------+ #
 
+# Reqiore permission to use items to toggle players (hideitem.toggle)
+require-permission-for-itmes: false
+
 # What slot should Hide item be? (Starts at 1 & ends at 9)
 slot: 9
 
@@ -97,13 +100,16 @@ show-message: '&aAll players are now visible!'
 # %cooldown% can be used to show how many seconds are left until command / item can be used again
 cooldown-message: '&eYou are in cooldown for %cooldown% more seconds.'
 
-no-permission-message: "&cYou don't have permission to use this command"
+no-permission-message: "&cYou don't have permission to do this!"
 
 # +----------------------------------------------------------------------------------------------+ #
 # |                                           COMMANDS                                           | #
 # |                                                                                              | #
 # |                                Settings of hideItem command                                  | #
 # +----------------------------------------------------------------------------------------------+ #
+
+# Reqiore permission to use /hideitem <hide, toggle, show> (hideitem.show, hideitem.hide, hideitem.toggle)
+require-permission-for-commands: false
 
 # What this option does is it toggles if following aliases of hide command will be available
 # If aliases aren't enabled you can use only /hideitem toggle, /hideitem hide, /hideitem show
@@ -114,8 +120,8 @@ use-aliases: true
 
 # What commands players use to toggle other players
 # If use-aliases is false or disable-commands is true following settings can't be used
-show-command-alias: '/hide'
-hide-command-alias: '/show'
+show-command-alias: '/show'
+hide-command-alias: '/hide'
 toggle-command-alias: '/toggleplayers'
 
 

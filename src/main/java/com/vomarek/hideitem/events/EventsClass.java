@@ -1,9 +1,9 @@
-package com.vomarek.HideItem.Events;
+package com.vomarek.hideitem.events;
 
-import com.vomarek.HideItem.Data.PlayerState;
-import com.vomarek.HideItem.HideItem;
-import com.vomarek.HideItem.Util.HidingItem;
-import com.vomarek.HideItem.Util.PlayerHiding;
+import com.vomarek.hideitem.data.PlayerState;
+import com.vomarek.hideitem.HideItem;
+import com.vomarek.hideitem.util.HidingItem;
+import com.vomarek.hideitem.util.PlayerHiding;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -48,6 +48,11 @@ public class EventsClass implements Listener {
         ItemStack i = event.getItem();
 
         if (!plugin.getHideItemConfig().isHideItem(i) && !plugin.getHideItemConfig().isShowItem(i)) return;
+
+        if (!player.hasPermission("hideitem.toggle") && plugin.getHideItemConfig().REQUIRE_PERMISSION_FOR_ITEMS()) {
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getHideItemConfig().NO_PERMISSION_MESSAGE()));
+            return;
+        }
 
         if (cooldowns.containsKey(player.getName())) {
 

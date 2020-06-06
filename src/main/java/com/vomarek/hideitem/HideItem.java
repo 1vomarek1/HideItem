@@ -1,11 +1,11 @@
-package com.vomarek.HideItem;
+package com.vomarek.hideitem;
 
-import com.vomarek.HideItem.Commands.Commands;
-import com.vomarek.HideItem.Data.HideItemConfig;
-import com.vomarek.HideItem.Data.PlayerState;
-import com.vomarek.HideItem.Events.EventsClass;
-import com.vomarek.HideItem.Util.HidingItem;
-import com.vomarek.HideItem.Util.PlayerHiding;
+import com.vomarek.hideitem.commands.Commands;
+import com.vomarek.hideitem.data.HideItemConfig;
+import com.vomarek.hideitem.data.PlayerState;
+import com.vomarek.hideitem.events.EventsClass;
+import com.vomarek.hideitem.util.HidingItem;
+import com.vomarek.hideitem.util.PlayerHiding;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -60,7 +60,14 @@ public class HideItem extends JavaPlugin {
         plugin.getServer().getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', "&3&lHideItem &7| &fHideItem has been disabled!"));
     }
 
-
+    /**
+     * Using this method you can set visibility of other players for player.<br>
+     * Player will see vanished players if has hideitem.seevanished permission.<br>
+     * No message is sent to player!
+     *
+     * @param player who to set visibility of others to
+     * @param hidden should player have hidden players?
+     */
 
     public static void setHiddenState(Player player, Boolean hidden) {
         if (hidden) {
@@ -74,12 +81,25 @@ public class HideItem extends JavaPlugin {
         }
     }
 
+    /**
+     * Using this method you can hide players for specific player.<br>
+     * No message is sent to player!
+     *
+     * @param player Player who you want to hide others to
+     */
     public static void hideFor(Player player) {
         new PlayerHiding(plugin).hide(player);
         new HidingItem(plugin).giveHideItem(player);
         plugin.getPlayerState().setPlayerState(player, "hidden");
     }
 
+    /**
+     * Using this method you can show players for specific player.<br>
+     * Player will see vanished players if has hideitem.seevanished permission.<br>
+     * No message is sent to player!
+     *
+     * @param player Player who you want to show others to
+     */
     public static void showFor(Player player) {
         new PlayerHiding(plugin).show(player);
         new HidingItem(plugin).giveShowItem(player);
@@ -101,5 +121,24 @@ public class HideItem extends JavaPlugin {
 
     public void configReloaded() {
         playerState = new PlayerState(plugin);
+
+        
+        if (config.STORAGE_METHOD().equalsIgnoreCase("file")) {
+
+            final File file = new File(getDataFolder(), "data.yml");
+
+            try {
+                if (!file.exists()) {
+                    file.getParentFile().mkdirs();
+                    file.createNewFile();
+                }
+
+                data = new YamlConfiguration();
+                data.load(file);
+            } catch (IOException | InvalidConfigurationException e) {
+                e.printStackTrace();
+            }
+
+        } else data = null;
     }
 }

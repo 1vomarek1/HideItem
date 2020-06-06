@@ -1,9 +1,9 @@
-package com.vomarek.HideItem.Commands;
+package com.vomarek.hideitem.commands;
 
-import com.vomarek.HideItem.Data.PlayerState;
-import com.vomarek.HideItem.HideItem;
-import com.vomarek.HideItem.Util.HidingItem;
-import com.vomarek.HideItem.Util.PlayerHiding;
+import com.vomarek.hideitem.data.PlayerState;
+import com.vomarek.hideitem.HideItem;
+import com.vomarek.hideitem.util.HidingItem;
+import com.vomarek.hideitem.util.PlayerHiding;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -48,10 +48,10 @@ public class Commands implements CommandExecutor {
 
     private boolean toggle(CommandSender sender) {
         if (!(sender instanceof Player)) {
-            sender.sendMessage("&3&lHideItem &7| &fOnly players can use this command!");
+            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&3&lHideItem &7| &fOnly players can use this command!"));
             return true;
         }
-        if (!sender.hasPermission("hideitem.command.toggle")) {
+        if (!sender.hasPermission("hideitem.toggle") && plugin.getHideItemConfig().REQUIRE_PERMISSION_FOR_COMMANDS()) {
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getHideItemConfig().NO_PERMISSION_MESSAGE()));
             return true;
         }
@@ -114,10 +114,10 @@ public class Commands implements CommandExecutor {
 
     private boolean show(CommandSender sender) {
         if (!(sender instanceof Player)) {
-            sender.sendMessage("&3&lHideItem &7| &fOnly players can use this command!");
+            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&3&lHideItem &7| &fOnly players can use this command!"));
             return true;
         }
-        if (!sender.hasPermission("hideitem.command.show")) {
+        if (!sender.hasPermission("hideitem.show") && plugin.getHideItemConfig().REQUIRE_PERMISSION_FOR_COMMANDS()) {
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getHideItemConfig().NO_PERMISSION_MESSAGE()));
             return true;
         }
@@ -155,10 +155,10 @@ public class Commands implements CommandExecutor {
 
     private boolean hide(CommandSender sender) {
         if (!(sender instanceof Player)) {
-            sender.sendMessage("&3&lHideItem &7| &fOnly players can use this command!");
+            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&3&lHideItem &7| &fOnly players can use this command!"));
             return true;
         }
-        if (!sender.hasPermission("hideitem.command.hide")) {
+        if (!sender.hasPermission("hideitem.hide") && plugin.getHideItemConfig().REQUIRE_PERMISSION_FOR_COMMANDS()) {
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getHideItemConfig().NO_PERMISSION_MESSAGE()));
             return true;
         }
@@ -194,9 +194,9 @@ public class Commands implements CommandExecutor {
     private boolean info (CommandSender sender) {
 
         if (sender instanceof Player) {
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&3&lHideItem&7│ &fRunning &3HideItem&f v3.0"));
+            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&3&lHideItem&7│ &fRunning &3HideItem&f v"+plugin.getDescription().getVersion()));
         } else {
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&3&lHideItem &7| &fRunning &3HideItem&f v3.0"));
+            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&3&lHideItem &7| &fRunning &3HideItem&f v"+plugin.getDescription().getVersion()));
         }
 
         return true;
@@ -228,7 +228,7 @@ public class Commands implements CommandExecutor {
         if (sender instanceof Player) {
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&3&lHideItem&7│ &aSuccessfully reloaded config in %time% ms".replace("%time%", String.valueOf(endTime.getTime() - startTime.getTime()))));
         } else {
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&3&lHideItem &7| &atSuccessfully reloaded config in %time% ms".replace("%time%", String.valueOf(endTime.getTime() - startTime.getTime()))));
+            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&3&lHideItem &7| &aSuccessfully reloaded config in %time% ms".replace("%time%", String.valueOf(endTime.getTime() - startTime.getTime()))));
         }
 
         return true;
