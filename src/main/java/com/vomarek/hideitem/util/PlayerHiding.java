@@ -4,32 +4,71 @@ import com.vomarek.hideitem.HideItem;
 import org.bukkit.entity.Player;
 import org.bukkit.metadata.MetadataValue;
 
+import java.util.Arrays;
+
 public class PlayerHiding {
     private HideItem plugin;
+    private Boolean usePlugin;
 
     public PlayerHiding(final HideItem plugin) {
         this.plugin = plugin;
-    }
 
-    public void hideSinglePlayer(final Player player, final Player target) {
-        player.hidePlayer(plugin, target);
-    }
+        final String[] arr = plugin.getServer().getBukkitVersion().split("\\.");
 
-    public void showSinglePlayer(final Player player, final Player target) {
-        if (isVanished(target) && !player.hasPermission("hideitem.seevanished")) return;
-        player.hidePlayer(plugin, target);
-    }
+        if (arr.length >= 2) {
 
-    public void hide(final Player player) {
-        for (final Player p : plugin.getServer().getOnlinePlayers()) {
-            player.hidePlayer(plugin, p);
+            try {
+                Integer i = Integer.parseInt(arr[1]);
+
+                if (i > 11) usePlugin = true;
+                else usePlugin = false;
+            } catch (NumberFormatException ignored) {
+                usePlugin = false;
+            }
+        } else {
+            usePlugin = false;
         }
     }
 
+    @SuppressWarnings("deprecation")
+    public void hideSinglePlayer(final Player player, final Player target) {
+        if (usePlugin) {
+            player.hidePlayer(plugin, target);
+        } else {
+            player.hidePlayer(target);
+        }
+    }
+
+    @SuppressWarnings("deprecation")
+    public void showSinglePlayer(final Player player, final Player target) {
+        if (isVanished(target) && !player.hasPermission("hideitem.seevanished")) return;
+        if (usePlugin) {
+            player.showPlayer(plugin, target);
+        } else {
+            player.showPlayer(target);
+        }
+    }
+
+    @SuppressWarnings("deprecation")
+    public void hide(final Player player) {
+        for (final Player p : plugin.getServer().getOnlinePlayers()) {
+            if (usePlugin) {
+                player.hidePlayer(plugin, p);
+            } else {
+                player.hidePlayer(p);
+            }
+        }
+    }
+
+    @SuppressWarnings("deprecation")
     public void show(final Player player) {
         for (final Player p : plugin.getServer().getOnlinePlayers()) {
             if (isVanished(p) && !player.hasPermission("hideitem.seevanished")) continue;
-            player.showPlayer(plugin, p);
+            if (usePlugin) {
+                player.showPlayer(plugin, p);
+            } else {
+                player.showPlayer(p);
+            }
         }
     }
 

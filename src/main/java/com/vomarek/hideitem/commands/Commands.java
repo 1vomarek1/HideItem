@@ -194,7 +194,7 @@ public class Commands implements CommandExecutor {
     private boolean info (CommandSender sender) {
 
         if (sender instanceof Player) {
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&3&lHideItem&7│ &fRunning &3HideItem&f v"+plugin.getDescription().getVersion()));
+            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&3&lHideItem&7┃ &fRunning &3HideItem&f v"+plugin.getDescription().getVersion()));
         } else {
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&3&lHideItem &7| &fRunning &3HideItem&f v"+plugin.getDescription().getVersion()));
         }
@@ -226,7 +226,7 @@ public class Commands implements CommandExecutor {
         }
 
         if (sender instanceof Player) {
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&3&lHideItem&7│ &aSuccessfully reloaded config in %time% ms".replace("%time%", String.valueOf(endTime.getTime() - startTime.getTime()))));
+            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&3&lHideItem&7┃ &aSuccessfully reloaded config in %time% ms".replace("%time%", String.valueOf(endTime.getTime() - startTime.getTime()))));
         } else {
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&3&lHideItem &7| &aSuccessfully reloaded config in %time% ms".replace("%time%", String.valueOf(endTime.getTime() - startTime.getTime()))));
         }

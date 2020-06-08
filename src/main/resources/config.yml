@@ -15,7 +15,7 @@
 #    About:
 #    | What is HideItem?
 #     HideItem is plugin used to give players option to hide & show all players.
-#     Plugins like HideItem are usualy used on lobbies.
+#     Plugins like HideItem are usually used on lobbies.
 #
 #    | Does HideItem support vanish plugins?
 #     Yes, HideItem does support plugins like PremiumVanish, SuperVanish, VanishNoPacket
@@ -67,7 +67,7 @@ require-permission-for-itmes: false
 # What slot should Hide item be? (Starts at 1 & ends at 9)
 slot: 9
 
-# if you set this to true it will put the item in the first free slot  (disables slot fearture)
+# if you set this to true it will put the item in the first free slot  (disables slot feature)
 first-free-slot: false
 
 # If set to true item can't be dropped or moved inside of inventory
@@ -108,7 +108,7 @@ no-permission-message: "&cYou don't have permission to do this!"
 # |                                Settings of hideItem command                                  | #
 # +----------------------------------------------------------------------------------------------+ #
 
-# Reqiore permission to use /hideitem <hide, toggle, show> (hideitem.show, hideitem.hide, hideitem.toggle)
+# Require permission to use /hideitem <hide, toggle, show> (hideitem.show, hideitem.hide, hideitem.toggle)
 require-permission-for-commands: false
 
 # What this option does is it toggles if following aliases of hide command will be available
@@ -147,7 +147,7 @@ default-state-shown: true
 
 # !!!!!!!!!!                                CONFIG UPDATES                                !!!!!!!!!!
 # What this option does is if you update to next version your current config will be renamed to
-# config.old.yml and new one will be generated (Requires you to manualy update new config.yml)
+# config.old.yml and new one will be generated (Requires you to manually update new config.yml)
 rename-old-config: true
 #     IF SET TO FALSE PLUGIN WILL ONLY USE DEFAULT CONFIG VALUES FOR NEW/RENAMED CONFIG VALUES     #
 
