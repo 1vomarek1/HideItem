@@ -1,7 +1,8 @@
 # HideItem
 **by 1vomarek1**    
 HideItem is spigot plugin used to give players option to toggle visibility of other players.  
-This plugin was originaly created by **qKing12**. [Link](https://www.spigotmc.org/resources/hideitem-hide-players-1-8-1-15.70313/)
+Documentation [link](https://docs.vomarek.com/hideitem/hideitem)  
+This plugin was originally created by **qKing12** [Link](https://www.spigotmc.org/resources/hideitem-hide-players-1-8-1-15.70313/)  
 
 ## API
 
@@ -9,7 +10,7 @@ This plugin was originaly created by **qKing12**. [Link](https://www.spigotmc.or
 To import HideItem, simply add the following code to your pom.xml
 Replace {VERSION} with the version listed at the top of this page.
 
-```xml
+```
 <repositories>
     <repository>
         <id>hideitem</id>
@@ -29,12 +30,38 @@ Replace {VERSION} with the version listed at the top of this page.
 ### Methods
 
 ```
+package com.vomarek.hideitem;
 
-HideItem.setHiddenState(Player player, Boolean hidden);
+public class HideItem extends JavaPlugin {
 
-HideItem.hideFor(Player player, Boolean hidden);
+    /**
+     * Using this method you can set visibility of other players for player.<br>
+     * Player will see vanished players if has hideitem.seevanished permission.<br>
+     * No message is sent to player!
+     *
+     * @param player who to set visibility of others to
+     * @param hidden should player have hidden players?
+     */
 
-HideItem.showFor(Player player, Boolean hidden);
+    public static void setHiddenState(Player player, Boolean hidden);
+    
+    /**
+     * Using this method you can hide players for specific player.<br>
+     * No message is sent to player!
+     *
+     * @param player Player who you want to hide others to
+     */
+    public static void hideFor(Player player);
+    
+    /**
+     * Using this method you can show players for specific player.<br>
+     * Player will see vanished players if has hideitem.seevanished permission.<br>
+     * No message is sent to player!
+     *
+     * @param player Player who you want to show others to
+     */
+    public static void showFor(Player player);
+}
 ```
 
 ## Support

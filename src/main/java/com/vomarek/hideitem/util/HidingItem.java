@@ -12,6 +12,8 @@ public class HidingItem {
     }
 
     public HidingItem giveHideItem(Player player) {
+        if (plugin.getHideItemConfig().DISABLE_ITEMS()) return this;
+
         for (int x = 0; x <= 8; x++) {
             ItemStack item = player.getInventory().getItem(x);
 
@@ -28,6 +30,8 @@ public class HidingItem {
     }
 
     public HidingItem giveShowItem(Player player) {
+        if (plugin.getHideItemConfig().DISABLE_ITEMS()) return this;
+
         for (int x = 0; x <= 8; x++) {
             ItemStack item = player.getInventory().getItem(x);
 

@@ -78,14 +78,14 @@ hide-item:
   material: "INK_SACK:10"
   name: "&eHide Players &7(Shown)"
   lore:
-    - '&aClick &7to hide players'
+    - "&aClick &7to hide players"
 
 # Settings of item when all players are hidden
 show-item:
   material: "INK_SACK:8"
-  name: '&eHide Players &7(Hidden)'
+  name: "&eHide Players &7(Hidden)"
   lore:
-    - '&aClick &7to show players'
+    - "&aClick &7to show players"
 
 # +----------------------------------------------------------------------------------------------+ #
 # |                                            MESSAGES                                          | #
@@ -95,17 +95,17 @@ show-item:
 
 
 # Messages send when player hides / shows all players
-hide-message: '&7All players are now hidden!'
-show-message: '&aAll players are now visible!'
+hide-message: "&7All players are now hidden!"
+show-message: "&aAll players are now visible!"
 # %cooldown% can be used to show how many seconds are left until command / item can be used again
-cooldown-message: '&eYou are in cooldown for %cooldown% more seconds.'
+cooldown-message: "&eYou are in cooldown for %cooldown% more seconds."
 
 no-permission-message: "&cYou don't have permission to do this!"
 
 # +----------------------------------------------------------------------------------------------+ #
 # |                                           COMMANDS                                           | #
 # |                                                                                              | #
-# |                                Settings of hideItem command                                  | #
+# |                                Settings of HideItem command                                  | #
 # +----------------------------------------------------------------------------------------------+ #
 
 # Require permission to use /hideitem <hide, toggle, show> (hideitem.show, hideitem.hide, hideitem.toggle)
@@ -120,9 +120,9 @@ use-aliases: true
 
 # What commands players use to toggle other players
 # If use-aliases is false or disable-commands is true following settings can't be used
-show-command-alias: '/show'
-hide-command-alias: '/hide'
-toggle-command-alias: '/toggleplayers'
+show-command-alias: "/show"
+hide-command-alias: "/hide"
+toggle-command-alias: "/toggleplayers"
 
 
 
