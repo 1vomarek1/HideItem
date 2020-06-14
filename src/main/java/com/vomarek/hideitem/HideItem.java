@@ -3,9 +3,11 @@ package com.vomarek.hideitem;
 import com.vomarek.hideitem.commands.Commands;
 import com.vomarek.hideitem.data.HideItemConfig;
 import com.vomarek.hideitem.data.PlayerState;
+import com.vomarek.hideitem.data.PlayersHidden;
 import com.vomarek.hideitem.events.EventsClass;
 import com.vomarek.hideitem.util.HidingItem;
 import com.vomarek.hideitem.util.PlayerHiding;
+import org.bstats.bukkit.Metrics;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -21,10 +23,17 @@ public class HideItem extends JavaPlugin {
     private YamlConfiguration data;
     private PlayerState playerState;
 
+    private PlayersHidden playersHidden;
+
     @Override
     public void onEnable() {
         plugin = this;
 
+        Metrics metrics = new Metrics(this, 7853);
+
+        if (metrics.isEnabled()) {
+            playersHidden = new PlayersHidden(metrics);
+        }
 
         config = new HideItemConfig(plugin);
 
@@ -140,5 +149,9 @@ public class HideItem extends JavaPlugin {
             }
 
         } else data = null;
+    }
+
+    public PlayersHidden getPlayersHidden() {
+        return playersHidden;
     }
 }

@@ -32,6 +32,7 @@ public class PlayerHiding {
 
     @SuppressWarnings("deprecation")
     public void hideSinglePlayer(final Player player, final Player target) {
+        if (plugin.getPlayersHidden() != null) plugin.getPlayersHidden().add();
         if (usePlugin) {
             player.hidePlayer(plugin, target);
         } else {
@@ -52,6 +53,7 @@ public class PlayerHiding {
     @SuppressWarnings("deprecation")
     public void hide(final Player player) {
         for (final Player p : plugin.getServer().getOnlinePlayers()) {
+            if (plugin.getPlayersHidden() != null) plugin.getPlayersHidden().add();
             if (usePlugin) {
                 player.hidePlayer(plugin, p);
             } else {
