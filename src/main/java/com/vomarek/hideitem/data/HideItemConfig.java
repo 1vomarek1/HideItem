@@ -174,8 +174,14 @@ public class HideItemConfig {
         //
 
         // Hide item
-        Material hideMaterial = Material.getMaterial(config.getString("hide-item.material", "INK_SACK:0").split(":")[1]);
-        if (hideMaterial == null) hideMaterial = Material.INK_SACK;
+        Material hideMaterial;
+
+        if (config.getString("hide-item.material", "INK_SACK:0").split(":").length == 2) {
+            hideMaterial = Material.getMaterial(config.getString("hide-item.material", "INK_SACK:0").split(":")[0]);
+            if (hideMaterial == null) hideMaterial = Material.INK_SACK;
+        } else {
+            hideMaterial = Material.INK_SACK;
+        }
 
         HIDE_ITEM = new ItemStack(hideMaterial, 1, (byte) Integer.parseInt(config.getString("hide-item.material", "INK_SACK:0").split(":")[1]));
         ItemMeta hideItemMeta = HIDE_ITEM.getItemMeta();
@@ -193,8 +199,13 @@ public class HideItemConfig {
         HIDE_ITEM.setItemMeta(hideItemMeta);
 
         // Show Item
-        Material showMaterial = Material.getMaterial(config.getString("show-item.material", "INK_SACK:0").split(":")[1]);
-        if (showMaterial == null) showMaterial = Material.INK_SACK;
+        Material showMaterial;
+        if (config.getString("show-item.material", "INK_SACK:0").split(":").length == 2) {
+            showMaterial = Material.getMaterial(config.getString("show-item.material", "INK_SACK:0").split(":")[0]);
+            if (showMaterial == null) showMaterial = Material.INK_SACK;
+        } else {
+            showMaterial = Material.INK_SACK;
+        }
 
         SHOW_ITEM = new ItemStack(showMaterial, 1, (byte) Integer.parseInt(config.getString("show-item.material", "INK_SACK:0").split(":")[1]));
         ItemMeta showItemMeta = SHOW_ITEM.getItemMeta();
@@ -212,7 +223,7 @@ public class HideItemConfig {
         SHOW_ITEM.setItemMeta(showItemMeta);
 
         FIRST_FREE_SLOT = config.getBoolean("first-free-slot", false);
-        ITEM_SLOT = config.getInt("item-slot", 8);
+        ITEM_SLOT = config.getInt("item-slot", 9);
         FIXED_ITEM = config.getBoolean("fixed-item", true);
 
         //
