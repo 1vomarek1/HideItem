@@ -13,6 +13,7 @@ permissions:
       children:
         hideitem.admin: true
         hideitem.reload: true
+        hideitem.seevanished: true
         hideitem.show: true
         hideitem.hide: true
         hideitem.toggle: true

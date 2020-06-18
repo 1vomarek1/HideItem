@@ -27,7 +27,7 @@ public class MySQL {
         try {
             Class.forName("com.mysql.jdbc.Driver");
 
-            final Connection conn = DriverManager.getConnection("jdbc:mysql://"+host+":"+port+"/?characterEncoding=latin1&useConfigs=maxPerformance", user, password);
+            final Connection conn = DriverManager.getConnection("jdbc:mysql://"+host+":"+port+"/?useUnicode=true&characterEncoding=utf8&useSSL=false&verifyServerCertificate=false", user, password);
 
             final Statement stmt = conn.createStatement();
 
@@ -47,7 +47,7 @@ public class MySQL {
         try {
             Class.forName("com.mysql.jdbc.Driver");
 
-            final Connection conn = DriverManager.getConnection("jdbc:mysql://" + host + ":" + port + "/?characterEncoding=latin1&useConfigs=maxPerformance", user, password);
+            final Connection conn = DriverManager.getConnection("jdbc:mysql://" + host + ":" + port + "/?useUnicode=true&characterEncoding=utf8&useSSL=false&verifyServerCertificate=false", user, password);
 
             final PreparedStatement stmt = conn.prepareStatement("INSERT INTO "+database+"."+table+" (player, state) VALUES (?, ?) ON DUPLICATE KEY UPDATE state=?");
             stmt.setString(1, player.getName());
@@ -66,7 +66,7 @@ public class MySQL {
         try {
             Class.forName("com.mysql.jdbc.Driver");
 
-            final Connection conn = DriverManager.getConnection("jdbc:mysql://" + host + ":" + port + "/?characterEncoding=latin1&useConfigs=maxPerformance", user, password);
+            final Connection conn = DriverManager.getConnection("jdbc:mysql://" + host + ":" + port + "/?useUnicode=true&characterEncoding=utf8&useSSL=false&verifyServerCertificate=false", user, password);
 
             final PreparedStatement stmt = conn.prepareStatement("SELECT * FROM "+database+"."+table+" WHERE player=?");
             stmt.setString(1, player.getName());

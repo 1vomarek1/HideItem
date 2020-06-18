@@ -82,27 +82,26 @@ public class EventsClass implements Listener {
 
             new PlayerHiding(plugin).show(player);
 
-            playerState.setPlayerState(player, "shown");
 
             event.getPlayer().sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getHideItemConfig().SHOW_MESSAGE()));
 
 
-            if (plugin.getHideItemConfig().DISABLE_ITEMS()) return;
-            new HidingItem(plugin).giveHideItem(player);
+            if (!plugin.getHideItemConfig().DISABLE_ITEMS()) new HidingItem(plugin).giveHideItem(player);
+
+            playerState.setPlayerState(player, "shown");
 
         } else if (state.equalsIgnoreCase("shown")){
 
             new PlayerHiding(plugin).hide(player);
 
 
-            playerState.setPlayerState(player, "hidden");
 
             event.getPlayer().sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getHideItemConfig().HIDE_MESSAGE()));
 
 
-            if (plugin.getHideItemConfig().DISABLE_ITEMS()) return;
+            if (!plugin.getHideItemConfig().DISABLE_ITEMS()) new HidingItem(plugin).giveShowItem(player);
 
-            new HidingItem(plugin).giveShowItem(player);
+            playerState.setPlayerState(player, "hidden");
 
         }
     }
@@ -134,7 +133,7 @@ public class EventsClass implements Listener {
 
         } else {
 
-            player.getInventory().setItem(plugin.getHideItemConfig().ITEM_SLOT(), hideItem);
+            player.getInventory().setItem(plugin.getHideItemConfig().ITEM_SLOT() - 1, hideItem);
 
         }
     }
@@ -210,7 +209,7 @@ public class EventsClass implements Listener {
         if (plugin.getHideItemConfig().FIRST_FREE_SLOT()) {
             player.getInventory().addItem(hideItem);
         } else {
-            player.getInventory().setItem(plugin.getHideItemConfig().ITEM_SLOT(), hideItem);
+            player.getInventory().setItem(plugin.getHideItemConfig().ITEM_SLOT() - 1, hideItem);
         }
     }
 

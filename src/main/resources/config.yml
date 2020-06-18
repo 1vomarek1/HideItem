@@ -75,17 +75,25 @@ fixed-item: true
 
 # Settings of item when all players are visible
 hide-item:
+  # Material has format <material>:<data>
+  # Usually you want to have data set to 0 unless you are using colored items, dyes ect.
+  # Material is spigot material Find it here: (1.12: https://helpch.at/docs/1.12.2/org/bukkit/Material.html, 1.15.1: https://helpch.at/docs/1.15.1/org/bukkit/Material.html)
   material: "INK_SACK:10"
   name: "&eHide Players &7(Shown)"
   lore:
     - "&aClick &7to hide players"
+  enchanted: true
 
 # Settings of item when all players are hidden
 show-item:
+  # Material has format <material>:<data>
+  # Usually you want to have data set to 0 unless you are using colored items, dyes ect.
+  # Material is spigot material Find it here: (1.12: https://helpch.at/docs/1.12.2/org/bukkit/Material.html, 1.15.1: https://helpch.at/docs/1.15.1/org/bukkit/Material.html)
   material: "INK_SACK:8"
   name: "&eHide Players &7(Hidden)"
   lore:
     - "&aClick &7to show players"
+  enchanted: true
 
 # +----------------------------------------------------------------------------------------------+ #
 # |                                            MESSAGES                                          | #

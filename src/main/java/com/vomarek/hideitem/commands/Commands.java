@@ -77,7 +77,6 @@ public class Commands implements CommandExecutor {
         String state = playerState.getPlayerState(player);
 
 
-        if (state == null) playerState.setPlayerState(player, plugin.getHideItemConfig().DEFAULT_SHOWN() ? "shown" : "hidden");
         if (state == null) state = plugin.getHideItemConfig().DEFAULT_SHOWN() ? "shown" : "hidden";
 
 
@@ -85,28 +84,23 @@ public class Commands implements CommandExecutor {
 
             new PlayerHiding(plugin).show(player);
 
-            playerState.setPlayerState(player, "shown");
-
             player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getHideItemConfig().SHOW_MESSAGE()));
 
 
-            if (plugin.getHideItemConfig().DISABLE_ITEMS()) return true;
-            new HidingItem(plugin).giveHideItem(player);
+            if (!plugin.getHideItemConfig().DISABLE_ITEMS()) new HidingItem(plugin).giveHideItem(player);
+
+            playerState.setPlayerState(player, "shown");
 
         } else if (state.equalsIgnoreCase("shown")){
 
             new PlayerHiding(plugin).hide(player);
 
-
-            playerState.setPlayerState(player, "hidden");
-
             player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getHideItemConfig().HIDE_MESSAGE()));
 
 
-            if (plugin.getHideItemConfig().DISABLE_ITEMS()) return true;
+            if (!plugin.getHideItemConfig().DISABLE_ITEMS()) new HidingItem(plugin).giveShowItem(player);
 
-            new HidingItem(plugin).giveShowItem(player);
-
+            playerState.setPlayerState(player, "hidden");
         }
 
         return true;
@@ -140,15 +134,14 @@ public class Commands implements CommandExecutor {
         final Player player = (Player) sender;
 
         PlayerState playerState = plugin.getPlayerState();
-        playerState.setPlayerState(player, "shown");
 
         new PlayerHiding(plugin).show(player);
 
         sender.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getHideItemConfig().SHOW_MESSAGE()));
 
-        if (plugin.getHideItemConfig().DISABLE_ITEMS()) return true;
+        if (!plugin.getHideItemConfig().DISABLE_ITEMS()) new HidingItem(plugin).giveHideItem(player);
 
-        new HidingItem(plugin).giveHideItem(player);
+        playerState.setPlayerState(player, "shown");
 
         return true;
     }
@@ -181,12 +174,14 @@ public class Commands implements CommandExecutor {
         final Player player = (Player) sender;
 
         PlayerState playerState = plugin.getPlayerState();
-        playerState.setPlayerState(player, "hidden");
 
         new PlayerHiding(plugin).hide(player);
-        new HidingItem(plugin).giveShowItem(player);
 
         sender.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getHideItemConfig().HIDE_MESSAGE()));
+
+        if (!plugin.getHideItemConfig().DISABLE_ITEMS()) new HidingItem(plugin).giveShowItem(player);
+
+        playerState.setPlayerState(player, "hidden");
 
         return true;
     }
@@ -194,7 +189,7 @@ public class Commands implements CommandExecutor {
     private boolean info (CommandSender sender) {
 
         if (sender instanceof Player) {
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&3&lHideItem&7┃ &fRunning &3HideItem&f v"+plugin.getDescription().getVersion()));
+            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&3&lHideItem &7┃ &fRunning &3HideItem&f v"+plugin.getDescription().getVersion()));
         } else {
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&3&lHideItem &7| &fRunning &3HideItem&f v"+plugin.getDescription().getVersion()));
         }
@@ -226,7 +221,7 @@ public class Commands implements CommandExecutor {
         }
 
         if (sender instanceof Player) {
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&3&lHideItem&7┃ &aSuccessfully reloaded config in %time% ms".replace("%time%", String.valueOf(endTime.getTime() - startTime.getTime()))));
+            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&3&lHideItem &7┃ &aSuccessfully reloaded config in %time% ms".replace("%time%", String.valueOf(endTime.getTime() - startTime.getTime()))));
         } else {
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&3&lHideItem &7| &aSuccessfully reloaded config in %time% ms".replace("%time%", String.valueOf(endTime.getTime() - startTime.getTime()))));
         }

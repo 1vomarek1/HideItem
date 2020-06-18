@@ -5,6 +5,8 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -196,7 +198,12 @@ public class HideItemConfig {
 
         hideItemMeta.setLore(hideItemLore);
 
+        if (config.getBoolean("hide-item.enchanted", false)) hideItemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+
         HIDE_ITEM.setItemMeta(hideItemMeta);
+
+        if (config.getBoolean("hide-item.enchanted", false)) HIDE_ITEM.addUnsafeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 1);
+
 
         // Show Item
         Material showMaterial;
@@ -220,10 +227,14 @@ public class HideItemConfig {
 
         showItemMeta.setLore(showItemLore);
 
+        if (config.getBoolean("show-item.enchanted", false)) showItemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+
         SHOW_ITEM.setItemMeta(showItemMeta);
 
+        if (config.getBoolean("show-item.enchanted", false)) SHOW_ITEM.addUnsafeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 1);
+
         FIRST_FREE_SLOT = config.getBoolean("first-free-slot", false);
-        ITEM_SLOT = config.getInt("item-slot", 9);
+        ITEM_SLOT = config.getInt("slot", 9);
         FIXED_ITEM = config.getBoolean("fixed-item", true);
 
         //
