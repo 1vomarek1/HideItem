@@ -39,6 +39,18 @@ public class HideItem extends JavaPlugin {
 
         plugin.getServer().getPluginManager().registerEvents(new EventsClass(plugin), plugin);
 
+        if (config.STORAGE_METHOD().equalsIgnoreCase("sqlite")) {
+            final File file = new File(getDataFolder(), "data.db");
+
+            if (!file.exists()) {
+                try {
+                    file.getParentFile().mkdirs();
+                    file.createNewFile();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
         if (config.STORAGE_METHOD().equalsIgnoreCase("file")) {
 
             final File file = new File(getDataFolder(), "data.yml");

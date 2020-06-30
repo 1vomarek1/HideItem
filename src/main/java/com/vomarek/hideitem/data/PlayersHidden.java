@@ -5,7 +5,7 @@ import org.bstats.bukkit.Metrics;
 import java.util.concurrent.Callable;
 
 public class PlayersHidden {
-    private Metrics metrics;
+    private final Metrics metrics;
     private Integer count;
 
     public PlayersHidden(Metrics metrics) {

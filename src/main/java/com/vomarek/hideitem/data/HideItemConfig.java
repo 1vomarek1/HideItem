@@ -1,6 +1,9 @@
 package com.vomarek.hideitem.data;
 
 import com.vomarek.hideitem.HideItem;
+import com.vomarek.hideitem.data.database.Database;
+import com.vomarek.hideitem.data.database.MySQL;
+import com.vomarek.hideitem.data.database.SQLite;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.configuration.InvalidConfigurationException;
@@ -24,7 +27,7 @@ public class HideItemConfig {
 
     /* Data storage */
     private String STORAGE_METHOD;
-    private MySQL MYSQL;
+    private Database database;
 
     /* Disabled features */
     private Boolean DISABLE_ITEMS;
@@ -153,19 +156,9 @@ public class HideItemConfig {
 
         }
 
-        // Setup MySQL if storage method is mysql
-        if (STORAGE_METHOD.equals("mysql")) {
-
-            String MYSQL_HOST = config.getString("mysql.host", "localhost");
-            Integer MYSQL_PORT = config.getInt("mysql.port", 3306);
-            String MYSQL_DATABASE = config.getString("mysql.database", "HideItem");
-            String MYSQL_TABLE = config.getString("mysql.table", "HideItem");
-            String MYSQL_USER = config.getString("mysql.user", "root");
-            String MYSQL_PASSWORD = config.getString("mysql.password", "");
-
-            MYSQL = new MySQL(MYSQL_HOST, MYSQL_PORT, MYSQL_DATABASE, MYSQL_TABLE, MYSQL_USER, MYSQL_PASSWORD);
-
-        }
+        // Setup MySQL if storage method is database
+        if (STORAGE_METHOD.equals("mysql")) database = new MySQL(plugin, config);
+        if (STORAGE_METHOD.equals("sqlite")) database = new SQLite(plugin);
 
         // Disabled feartures
         DISABLE_ITEMS = config.getBoolean("disable-items", false);
@@ -292,8 +285,8 @@ public class HideItemConfig {
         return STORAGE_METHOD;
     }
 
-    public MySQL MYSQL() {
-        return MYSQL;
+    public Database DATABASE() {
+        return database;
     }
 
     //

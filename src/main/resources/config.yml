@@ -37,6 +37,7 @@ version: ${project.version}
 #
 # Possible options:
 #   MySQL | Data will be saved to remote MySQL database
+#   SQLite | Data will be saved to local file (/plugins/HideItem/data.db)
 #   File | Data will be saved to data.yml file
 #   none | Data won't be saved (after restart/reconnect the plugin won't remember if you have hidden players
 #

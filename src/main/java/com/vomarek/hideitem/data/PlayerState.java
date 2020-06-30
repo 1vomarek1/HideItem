@@ -36,9 +36,9 @@ public class PlayerState {
             }
         }
 
-        if (STORAGE_TYPE.equalsIgnoreCase("MySQL")) {
-            if (plugin.getHideItemConfig().MYSQL() == null) return this;
-            plugin.getHideItemConfig().MYSQL().setState(player, state);
+        if (STORAGE_TYPE.equalsIgnoreCase("MySQL") || STORAGE_TYPE.equalsIgnoreCase("SQLite")) {
+            if (plugin.getHideItemConfig().DATABASE() == null) return this;
+            plugin.getHideItemConfig().DATABASE().setState(player.getUniqueId().toString(), state);
         }
 
         return this;
@@ -60,10 +60,10 @@ public class PlayerState {
 
         }
 
-        if (STORAGE_TYPE.equalsIgnoreCase("MySQL")) {
-            if (plugin.getHideItemConfig().MYSQL() == null) return null;
+        if (STORAGE_TYPE.equalsIgnoreCase("MySQL") || STORAGE_TYPE.equalsIgnoreCase("SQLite")) {
+            if (plugin.getHideItemConfig().DATABASE() == null) return null;
 
-            final String state = plugin.getHideItemConfig().MYSQL().getState(player);
+            final String state = plugin.getHideItemConfig().DATABASE().getState(player.getUniqueId().toString());
 
             if (state == null) return null;
 
