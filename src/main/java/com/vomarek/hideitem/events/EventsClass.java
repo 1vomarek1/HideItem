@@ -11,10 +11,12 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.entity.SheepDyeWoolEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -31,7 +33,6 @@ public class EventsClass implements Listener {
     @EventHandler
     public void onClick(final PlayerInteractEvent event) {
 
-        if (!event.getAction().equals(Action.LEFT_CLICK_AIR) && !event.getAction().equals(Action.RIGHT_CLICK_AIR) && !event.getAction().equals(Action.LEFT_CLICK_BLOCK) && !event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) return;
         final Player player = event.getPlayer();
 
         try {
@@ -48,6 +49,10 @@ public class EventsClass implements Listener {
         ItemStack i = event.getItem();
 
         if (!plugin.getHideItemConfig().isHideItem(i) && !plugin.getHideItemConfig().isShowItem(i)) return;
+
+        event.setCancelled(true);
+
+        if (!event.getAction().equals(Action.LEFT_CLICK_AIR) && !event.getAction().equals(Action.RIGHT_CLICK_AIR) && !event.getAction().equals(Action.LEFT_CLICK_BLOCK) && !event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) return;
 
         if (!player.hasPermission("hideitem.toggle") && plugin.getHideItemConfig().REQUIRE_PERMISSION_FOR_ITEMS()) {
             player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getHideItemConfig().NO_PERMISSION_MESSAGE()));
@@ -88,7 +93,13 @@ public class EventsClass implements Listener {
 
             if (!plugin.getHideItemConfig().DISABLE_ITEMS()) new HidingItem(plugin).giveHideItem(player);
 
-            playerState.setPlayerState(player, "shown");
+            new BukkitRunnable(){
+
+                @Override
+                public void run() {
+                    playerState.setPlayerState(player, "shown");
+                }
+            }.runTaskAsynchronously(plugin);
 
         } else if (state.equalsIgnoreCase("shown")){
 
@@ -101,9 +112,34 @@ public class EventsClass implements Listener {
 
             if (!plugin.getHideItemConfig().DISABLE_ITEMS()) new HidingItem(plugin).giveShowItem(player);
 
-            playerState.setPlayerState(player, "hidden");
+            new BukkitRunnable(){
+
+                @Override
+                public void run() {
+                    playerState.setPlayerState(player, "hidden");
+                }
+            }.runTaskAsynchronously(plugin);
 
         }
+    }
+
+    @SuppressWarnings("deprecation")
+    @EventHandler
+    public void onInteractEntity(PlayerInteractEntityEvent event){
+        ItemStack i;
+        try {
+
+            if (Integer.parseInt(plugin.getServer().getVersion().split("\\.")[1]) > 8) {
+                i = event.getPlayer().getInventory().getItemInMainHand();
+            } else {
+                i = event.getPlayer().getInventory().getItemInHand();
+            }
+
+        } catch (NumberFormatException ignored) {
+            i = event.getPlayer().getInventory().getItemInHand();
+        }
+
+        if (plugin.getHideItemConfig().isShowItem(i) || plugin.getHideItemConfig().isHideItem(i)) event.setCancelled(true);
     }
 
 
@@ -128,6 +164,10 @@ public class EventsClass implements Listener {
 
         // Give hide / show item to correct slot
         if (plugin.getHideItemConfig().FIRST_FREE_SLOT()) {
+            for (ItemStack i : player.getInventory().getContents()) {
+                if (i == null) continue;
+                if (plugin.getHideItemConfig().isHideItem(i) || plugin.getHideItemConfig().isShowItem(i)) return;
+            }
 
             player.getInventory().addItem(hideItem);
 

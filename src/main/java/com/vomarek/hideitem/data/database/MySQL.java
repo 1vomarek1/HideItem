@@ -42,6 +42,7 @@ public class MySQL implements Database {
             sql = "CREATE TABLE IF NOT EXISTS "+DATABASE+"."+TABLE+" (player VARCHAR(16) NOT NULL, state VARCHAR(16) , PRIMARY KEY ( player ))";
             stmt.executeUpdate(sql);
 
+            stmt.close();
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }
@@ -60,6 +61,7 @@ public class MySQL implements Database {
             stmt.setString(3, state);
 
             stmt.execute();
+            stmt.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -82,6 +84,7 @@ public class MySQL implements Database {
 
                 return results.getString("state");
             }
+            stmt.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }

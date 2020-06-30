@@ -28,6 +28,7 @@ public class SQLite implements Database {
             final String sql = "CREATE TABLE IF NOT EXISTS HideItem (player VARCHAR(16) NOT NULL, state VARCHAR(16) , PRIMARY KEY ( player ))";
             stmt.executeUpdate(sql);
 
+            stmt.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -44,6 +45,8 @@ public class SQLite implements Database {
             stmt.setString(2, state);
 
             stmt.execute();
+
+            stmt.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -67,6 +70,8 @@ public class SQLite implements Database {
 
                 return results.getString("state");
             }
+
+            stmt.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
