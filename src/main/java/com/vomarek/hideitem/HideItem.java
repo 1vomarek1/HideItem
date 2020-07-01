@@ -6,6 +6,7 @@ import com.vomarek.hideitem.data.HideItemConfig;
 import com.vomarek.hideitem.data.PlayerState;
 import com.vomarek.hideitem.data.PlayersHidden;
 import com.vomarek.hideitem.events.EventsClass;
+import com.vomarek.hideitem.util.Cooldowns;
 import com.vomarek.hideitem.util.HidingItem;
 import com.vomarek.hideitem.util.PlayerHiding;
 import org.bstats.bukkit.Metrics;
@@ -14,17 +15,20 @@ import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.File;
 import java.io.IOException;
 
 public class HideItem extends JavaPlugin {
     private static HideItem plugin;
+
     private HideItemConfig config;
     private YamlConfiguration data;
-    private PlayerState playerState;
 
+    private PlayerState playerState;
     private PlayersHidden playersHidden;
+    private Cooldowns cooldowns;
 
     @Override
     public void onEnable() {
@@ -72,6 +76,8 @@ public class HideItem extends JavaPlugin {
 
         playerState = new PlayerState(plugin);
 
+        cooldowns = new Cooldowns(plugin);
+
         getCommand("hideitem").setExecutor(new Commands(plugin));
         getCommand("hideitem").setTabCompleter(new TabComplete(plugin));
 
@@ -96,11 +102,23 @@ public class HideItem extends JavaPlugin {
         if (hidden) {
             new PlayerHiding(plugin).hide(player);
             new HidingItem(plugin).giveHideItem(player);
-            plugin.getPlayerState().setPlayerState(player, "hidden");
+            new BukkitRunnable() {
+
+                @Override
+                public void run () {
+                    plugin.getPlayerState().setPlayerState(player, "hidden");
+                }
+            }.runTaskAsynchronously(plugin);
         } else {
             new PlayerHiding(plugin).show(player);
             new HidingItem(plugin).giveShowItem(player);
-            plugin.getPlayerState().setPlayerState(player, "shown");
+            new BukkitRunnable() {
+
+                @Override
+                public void run () {
+                    plugin.getPlayerState().setPlayerState(player, "shown");
+                }
+            }.runTaskAsynchronously(plugin);
         }
     }
 
@@ -113,7 +131,13 @@ public class HideItem extends JavaPlugin {
     public static void hideFor(Player player) {
         new PlayerHiding(plugin).hide(player);
         new HidingItem(plugin).giveHideItem(player);
-        plugin.getPlayerState().setPlayerState(player, "hidden");
+        new BukkitRunnable() {
+
+            @Override
+            public void run () {
+                plugin.getPlayerState().setPlayerState(player, "hidden");
+            }
+        }.runTaskAsynchronously(plugin);
     }
 
     /**
@@ -126,7 +150,13 @@ public class HideItem extends JavaPlugin {
     public static void showFor(Player player) {
         new PlayerHiding(plugin).show(player);
         new HidingItem(plugin).giveShowItem(player);
-        plugin.getPlayerState().setPlayerState(player, "shown");
+        new BukkitRunnable() {
+
+            @Override
+            public void run () {
+                plugin.getPlayerState().setPlayerState(player, "shown");
+            }
+        }.runTaskAsynchronously(plugin);
     }
 
 
@@ -140,6 +170,10 @@ public class HideItem extends JavaPlugin {
 
     public PlayerState getPlayerState() {
         return playerState;
+    }
+
+    public Cooldowns getCooldowns() {
+        return cooldowns;
     }
 
     public void configReloaded() {

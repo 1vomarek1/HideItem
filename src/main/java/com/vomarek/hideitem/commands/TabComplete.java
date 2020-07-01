@@ -19,23 +19,22 @@ public class TabComplete implements TabCompleter {
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
 
-        if (command.getName().equalsIgnoreCase("hideitem")) {
+        if (args.length >= 1) {
+            if (command.getName().equalsIgnoreCase("hideitem")) {
 
-            System.out.println(command.getName());
+                if (sender.hasPermission("hideitem.reload")) {
+                    if (!plugin.getHideItemConfig().DISABLE_COMMANDS())
+                        return Arrays.asList("info", "reload", "toggle", "show", "hide");
 
-            if (sender.hasPermission("hideitem.reload")) {
-                if (!plugin.getHideItemConfig().DISABLE_COMMANDS())
-                    return Arrays.asList("info", "reload", "toggle", "show", "hide");
+                    return Arrays.asList("info", "reload");
+                } else {
+                    if (!plugin.getHideItemConfig().DISABLE_COMMANDS())
+                        return Arrays.asList("info", "toggle", "show", "hide");
 
-                return Arrays.asList("info", "reload");
-            } else {
-                if (!plugin.getHideItemConfig().DISABLE_COMMANDS())
-                    return Arrays.asList("info", "toggle", "show", "hide");
-
-                return Arrays.asList("info");
+                    return Arrays.asList("info");
+                }
             }
         }
-
 
         return null;
     }

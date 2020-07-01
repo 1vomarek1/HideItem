@@ -11,23 +11,21 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.PlayerDeathEvent;
-import org.bukkit.event.entity.SheepDyeWoolEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.*;
+import org.bukkit.event.server.TabCompleteEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Arrays;
-import java.util.HashMap;
+import java.util.List;
 
 public class EventsClass implements Listener {
-    private HideItem plugin;
-    private HashMap<String, Integer> cooldowns;
+    private final HideItem plugin;
 
     public EventsClass(final HideItem plugin) {
         this.plugin = plugin;
-        cooldowns = new HashMap<>();
     }
 
     @EventHandler
@@ -41,7 +39,7 @@ public class EventsClass implements Listener {
                 if (!event.getHand().equals(EquipmentSlot.HAND)) return;
             }
 
-        } catch (NumberFormatException ignored) {}
+        } catch (final NumberFormatException ignored) {}
 
 
         if (event.getItem() == null) return;
@@ -59,20 +57,12 @@ public class EventsClass implements Listener {
             return;
         }
 
-        if (cooldowns.containsKey(player.getName())) {
-
-            if (((int) System.currentTimeMillis()/1000) - cooldowns.get(player.getName()) < plugin.getHideItemConfig().COOLDOWN()) {
-
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getHideItemConfig().COOLDOWN_MESSAGE().replace("%cooldown%", String.valueOf(plugin.getHideItemConfig().COOLDOWN() - (((int) System.currentTimeMillis()/1000) - cooldowns.get(player.getName()))))));
-                return;
-
-            } else {
-                cooldowns.remove(player.getName());
-            }
-
+        if (plugin.getCooldowns().isOnCooldown(player.getUniqueId().toString())) {
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getHideItemConfig().COOLDOWN_MESSAGE().replace("%cooldown%", String.valueOf(plugin.getCooldowns().getCooldown(player.getUniqueId().toString())))));
+            return;
         }
 
-        cooldowns.put(player.getName(), (int)System.currentTimeMillis()/1000);
+        plugin.getCooldowns().setCooldown(player.getUniqueId().toString());
 
 
         final PlayerState playerState = plugin.getPlayerState();
@@ -125,7 +115,7 @@ public class EventsClass implements Listener {
 
     @SuppressWarnings("deprecation")
     @EventHandler
-    public void onInteractEntity(PlayerInteractEntityEvent event){
+    public void onInteractEntity(final PlayerInteractEntityEvent event){
         ItemStack i;
         try {
 
@@ -149,7 +139,7 @@ public class EventsClass implements Listener {
 
         final String state = plugin.getPlayerState().getPlayerState(player);
 
-        Boolean hasHiddenPlayers = null;
+        boolean hasHiddenPlayers;
 
         if (Arrays.asList("hidden", "shown").contains(state)) hasHiddenPlayers = state.equalsIgnoreCase("hidden"); else hasHiddenPlayers = !plugin.getHideItemConfig().DEFAULT_SHOWN();
 
@@ -239,7 +229,7 @@ public class EventsClass implements Listener {
 
         final String state = plugin.getPlayerState().getPlayerState(player);
 
-        Boolean hasHiddenPlayers = null;
+        boolean hasHiddenPlayers;
 
         if (Arrays.asList("hidden", "shown").contains(state)) hasHiddenPlayers = state.equalsIgnoreCase("hidden"); else hasHiddenPlayers = !plugin.getHideItemConfig().DEFAULT_SHOWN();
 
@@ -273,14 +263,28 @@ public class EventsClass implements Listener {
 
     }
 
-    @EventHandler (ignoreCancelled = false, priority = EventPriority.HIGHEST)
-    public void onCommand(PlayerCommandPreprocessEvent event) {
+    @EventHandler (priority = EventPriority.HIGHEST)
+    public void onCommand(final PlayerCommandPreprocessEvent event) {
         if (plugin.getHideItemConfig().DISABLE_COMMANDS()) return;
         if (!plugin.getHideItemConfig().USE_ALIASES()) return;
 
         if (event.getMessage().equalsIgnoreCase(plugin.getHideItemConfig().HIDE_ALIAS())) event.setMessage("/hideitem hide");
         if (event.getMessage().equalsIgnoreCase(plugin.getHideItemConfig().SHOW_ALIAS())) event.setMessage("/hideitem show");
         if (event.getMessage().equalsIgnoreCase(plugin.getHideItemConfig().TOGGLE_ALIAS())) event.setMessage("/hideitem toggle");
+    }
+
+    @EventHandler (priority = EventPriority.HIGHEST)
+    public void onTab(final TabCompleteEvent event) {
+        final String buffer = event.getBuffer().toLowerCase();
+
+        final List<String> completions = event.getCompletions();
+
+        if (plugin.getHideItemConfig().TOGGLE_ALIAS().startsWith(buffer)) completions.add(plugin.getHideItemConfig().TOGGLE_ALIAS());
+        if (plugin.getHideItemConfig().HIDE_ALIAS().startsWith(buffer)) completions.add(plugin.getHideItemConfig().HIDE_ALIAS());
+        if (plugin.getHideItemConfig().SHOW_ALIAS().startsWith(buffer)) completions.add(plugin.getHideItemConfig().SHOW_ALIAS());
+
+        event.setCompletions(completions);
+
     }
 
 }

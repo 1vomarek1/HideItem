@@ -11,15 +11,12 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.Date;
-import java.util.HashMap;
 
 public class Commands implements CommandExecutor {
-    private HideItem plugin;
-    private HashMap<String, Integer> cooldowns;
+    private final HideItem plugin;
 
     public Commands (HideItem plugin) {
         this.plugin = plugin;
-        cooldowns = new HashMap<>();
     }
 
 
@@ -57,22 +54,14 @@ public class Commands implements CommandExecutor {
             return true;
         }
 
-        if (cooldowns.containsKey(sender.getName())) {
+        Player player = (Player) sender;
 
-            if (((int) System.currentTimeMillis()/1000) - cooldowns.get(sender.getName()) < plugin.getHideItemConfig().COOLDOWN()) {
-
-                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getHideItemConfig().COOLDOWN_MESSAGE().replace("%cooldown%", String.valueOf(plugin.getHideItemConfig().COOLDOWN() - (((int) System.currentTimeMillis()/1000) - cooldowns.get(sender.getName()))))));
-                return true;
-
-            } else {
-                cooldowns.remove(sender.getName());
-            }
-
+        if (plugin.getCooldowns().isOnCooldown(player.getUniqueId().toString())) {
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getHideItemConfig().COOLDOWN_MESSAGE().replace("%cooldown%", String.valueOf(plugin.getCooldowns().getCooldown(player.getUniqueId().toString())))));
+            return true;
         }
 
-        cooldowns.put(sender.getName(), (int)System.currentTimeMillis()/1000);
-
-        final Player player = (Player) sender;
+        plugin.getCooldowns().setCooldown(player.getUniqueId().toString());
 
         final PlayerState playerState = plugin.getPlayerState();
         String state = playerState.getPlayerState(player);
@@ -117,22 +106,14 @@ public class Commands implements CommandExecutor {
             return true;
         }
 
-        if (cooldowns.containsKey(sender.getName())) {
+        Player player = (Player) sender;
 
-            if (((int) System.currentTimeMillis()/1000) - cooldowns.get(sender.getName()) < plugin.getHideItemConfig().COOLDOWN()) {
-
-                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getHideItemConfig().COOLDOWN_MESSAGE().replace("%cooldown%", String.valueOf(plugin.getHideItemConfig().COOLDOWN() - (((int) System.currentTimeMillis()/1000) - cooldowns.get(sender.getName()))))));
-                return true;
-
-            } else {
-                cooldowns.remove(sender.getName());
-            }
-
+        if (plugin.getCooldowns().isOnCooldown(player.getUniqueId().toString())) {
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getHideItemConfig().COOLDOWN_MESSAGE().replace("%cooldown%", String.valueOf(plugin.getCooldowns().getCooldown(player.getUniqueId().toString())))));
+            return true;
         }
 
-        cooldowns.put(sender.getName(), (int)System.currentTimeMillis()/1000);
-
-        final Player player = (Player) sender;
+        plugin.getCooldowns().setCooldown(player.getUniqueId().toString());
 
         PlayerState playerState = plugin.getPlayerState();
 
@@ -157,22 +138,14 @@ public class Commands implements CommandExecutor {
             return true;
         }
 
-        if (cooldowns.containsKey(sender.getName())) {
+        Player player = (Player) sender;
 
-            if (((int) System.currentTimeMillis()/1000) - cooldowns.get(sender.getName()) < plugin.getHideItemConfig().COOLDOWN()) {
-
-                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getHideItemConfig().COOLDOWN_MESSAGE().replace("%cooldown%", String.valueOf(plugin.getHideItemConfig().COOLDOWN() - (((int) System.currentTimeMillis()/1000) - cooldowns.get(sender.getName()))))));
-                return true;
-
-            } else {
-                cooldowns.remove(sender.getName());
-            }
-
+        if (plugin.getCooldowns().isOnCooldown(player.getUniqueId().toString())) {
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getHideItemConfig().COOLDOWN_MESSAGE().replace("%cooldown%", String.valueOf(plugin.getCooldowns().getCooldown(player.getUniqueId().toString())))));
+            return true;
         }
 
-        cooldowns.put(sender.getName(), (int)System.currentTimeMillis()/1000);
-
-        final Player player = (Player) sender;
+        plugin.getCooldowns().setCooldown(player.getUniqueId().toString());
 
         PlayerState playerState = plugin.getPlayerState();
 
@@ -205,7 +178,7 @@ public class Commands implements CommandExecutor {
         }
 
         Date startTime = new Date();
-        Date endTime = null;
+        Date endTime;
 
         Runnable runnable = () -> {
             plugin.getHideItemConfig().reload();
