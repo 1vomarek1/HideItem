@@ -90,4 +90,12 @@ public class MySQL implements Database {
         }
         return null;
     }
+
+    public void close () {
+        try {
+            if (!conn.isClosed()) conn.close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
 }

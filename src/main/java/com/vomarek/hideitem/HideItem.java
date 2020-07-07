@@ -14,8 +14,10 @@ import org.bukkit.ChatColor;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
@@ -86,6 +88,8 @@ public class HideItem extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        if (getHideItemConfig().DATABASE() != null) getHideItemConfig().DATABASE().close();
+
         plugin.getServer().getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', "&3&lHideItem &7| &fHideItem has been disabled!"));
     }
 
@@ -98,7 +102,7 @@ public class HideItem extends JavaPlugin {
      * @param hidden should player have hidden players?
      */
 
-    public static void setHiddenState(Player player, Boolean hidden) {
+    public static void setHiddenState(@NotNull Player player, @NotNull Boolean hidden) {
         if (hidden) {
             new PlayerHiding(plugin).hide(player);
             new HidingItem(plugin).giveHideItem(player);
@@ -128,7 +132,7 @@ public class HideItem extends JavaPlugin {
      *
      * @param player Player who you want to hide others to
      */
-    public static void hideFor(Player player) {
+    public static void hideFor(@NotNull Player player) {
         new PlayerHiding(plugin).hide(player);
         new HidingItem(plugin).giveHideItem(player);
         new BukkitRunnable() {
@@ -147,7 +151,7 @@ public class HideItem extends JavaPlugin {
      *
      * @param player Player who you want to show others to
      */
-    public static void showFor(Player player) {
+    public static void showFor(@NotNull Player player) {
         new PlayerHiding(plugin).show(player);
         new HidingItem(plugin).giveShowItem(player);
         new BukkitRunnable() {

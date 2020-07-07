@@ -21,7 +21,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
 public class HideItemConfig {
-    private HideItem plugin;
+    private final HideItem plugin;
     private YamlConfiguration config;
 
 
@@ -228,6 +228,9 @@ public class HideItemConfig {
 
         FIRST_FREE_SLOT = config.getBoolean("first-free-slot", false);
         ITEM_SLOT = config.getInt("slot", 9);
+
+        if (ITEM_SLOT <= 0 || ITEM_SLOT >= 9) ITEM_SLOT = 9;
+
         FIXED_ITEM = config.getBoolean("fixed-item", true);
 
         //
@@ -371,11 +374,11 @@ public class HideItemConfig {
 
     public Boolean REQUIRE_PERMISSION_FOR_ITEMS() {
         return REQUIRE_PERMISSION_FOR_ITEMS;
-    };
+    }
 
     public Boolean REQUIRE_PERMISSION_FOR_COMMANDS() {
         return REQUIRE_PERMISSION_FOR_COMMANDS;
-    };
+    }
 
     //
     // Other settings

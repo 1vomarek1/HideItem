@@ -35,11 +35,11 @@ public class EventsClass implements Listener {
 
         try {
 
-            if (Integer.parseInt(plugin.getServer().getVersion().split("\\.")[1]) > 8) {
+            if (Integer.parseInt(plugin.getServer().getBukkitVersion().split("\\.")[1]) > 8) {
                 if (!event.getHand().equals(EquipmentSlot.HAND)) return;
             }
 
-        } catch (final NumberFormatException ignored) {}
+        } catch (final Exception ignored) {}
 
 
         if (event.getItem() == null) return;
@@ -119,7 +119,7 @@ public class EventsClass implements Listener {
         ItemStack i;
         try {
 
-            if (Integer.parseInt(plugin.getServer().getVersion().split("\\.")[1]) > 8) {
+            if (Integer.parseInt(plugin.getServer().getBukkitVersion().split("\\.")[1]) > 8) {
                 i = event.getPlayer().getInventory().getItemInMainHand();
             } else {
                 i = event.getPlayer().getInventory().getItemInHand();

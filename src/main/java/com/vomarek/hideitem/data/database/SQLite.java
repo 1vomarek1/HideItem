@@ -77,4 +77,12 @@ public class SQLite implements Database {
         }
         return null;
     }
+
+    public void close () {
+        try {
+            if (!conn.isClosed()) conn.close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
 }
