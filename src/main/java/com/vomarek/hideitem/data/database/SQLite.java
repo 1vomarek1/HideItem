@@ -1,7 +1,6 @@
 package com.vomarek.hideitem.data.database;
 
 import com.vomarek.hideitem.HideItem;
-import org.jetbrains.annotations.NotNull;
 
 import java.sql.*;
 
@@ -10,7 +9,7 @@ public class SQLite implements Database {
 
     private Connection conn;
 
-    public SQLite (@NotNull final HideItem plugin) {
+    public SQLite (final HideItem plugin) {
 
         this.plugin = plugin;
 

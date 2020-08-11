@@ -13,14 +13,14 @@ Replace {VERSION} with the version listed at the top of this page.
 ```
 <repositories>
     <repository>
-        <id>hideitem</id>
-        <url>https://repo.vomarek.com/repository/hideitem/</url>
+        <id>1vomarek1 repo</id>
+        <url>https://repo.vomarek.com/repository/release/</url>
     </repository>
 </repositories>
 <dependencies>
     <dependency>
-        <groupId>com.vomarek.hideitem</groupId>
-        <artifactId>HideItem</artifactId>
+        <groupId>com.vomarek</groupId>
+        <artifactId>hideitem</artifactId>
         <version>{VERSION}</version>
         <scope>provided</scope>
     </dependency>

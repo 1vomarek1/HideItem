@@ -7,17 +7,11 @@ import com.vomarek.hideitem.data.PlayerState;
 import com.vomarek.hideitem.data.PlayersHidden;
 import com.vomarek.hideitem.events.EventsClass;
 import com.vomarek.hideitem.util.Cooldowns;
-import com.vomarek.hideitem.util.HidingItem;
-import com.vomarek.hideitem.util.PlayerHiding;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitRunnable;
-import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
@@ -93,76 +87,9 @@ public class HideItem extends JavaPlugin {
         plugin.getServer().getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', "&3&lHideItem &7| &fHideItem has been disabled!"));
     }
 
-    /**
-     * Using this method you can set visibility of other players for player.<br>
-     * Player will see vanished players if has hideitem.seevanished permission.<br>
-     * No message is sent to player!
-     *
-     * @param player who to set visibility of others to
-     * @param hidden should player have hidden players?
-     */
-
-    public static void setHiddenState(@NotNull Player player, @NotNull Boolean hidden) {
-        if (hidden) {
-            new PlayerHiding(plugin).hide(player);
-            new HidingItem(plugin).giveHideItem(player);
-            new BukkitRunnable() {
-
-                @Override
-                public void run () {
-                    plugin.getPlayerState().setPlayerState(player, "hidden");
-                }
-            }.runTaskAsynchronously(plugin);
-        } else {
-            new PlayerHiding(plugin).show(player);
-            new HidingItem(plugin).giveShowItem(player);
-            new BukkitRunnable() {
-
-                @Override
-                public void run () {
-                    plugin.getPlayerState().setPlayerState(player, "shown");
-                }
-            }.runTaskAsynchronously(plugin);
-        }
+    public static HideItem getPlugin () {
+        return plugin;
     }
-
-    /**
-     * Using this method you can hide players for specific player.<br>
-     * No message is sent to player!
-     *
-     * @param player Player who you want to hide others to
-     */
-    public static void hideFor(@NotNull Player player) {
-        new PlayerHiding(plugin).hide(player);
-        new HidingItem(plugin).giveHideItem(player);
-        new BukkitRunnable() {
-
-            @Override
-            public void run () {
-                plugin.getPlayerState().setPlayerState(player, "hidden");
-            }
-        }.runTaskAsynchronously(plugin);
-    }
-
-    /**
-     * Using this method you can show players for specific player.<br>
-     * Player will see vanished players if has hideitem.seevanished permission.<br>
-     * No message is sent to player!
-     *
-     * @param player Player who you want to show others to
-     */
-    public static void showFor(@NotNull Player player) {
-        new PlayerHiding(plugin).show(player);
-        new HidingItem(plugin).giveShowItem(player);
-        new BukkitRunnable() {
-
-            @Override
-            public void run () {
-                plugin.getPlayerState().setPlayerState(player, "shown");
-            }
-        }.runTaskAsynchronously(plugin);
-    }
-
 
     public HideItemConfig getHideItemConfig() {
         return config;

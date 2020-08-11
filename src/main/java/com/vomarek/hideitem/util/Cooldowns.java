@@ -1,8 +1,6 @@
 package com.vomarek.hideitem.util;
 
 import com.vomarek.hideitem.HideItem;
-import org.bukkit.ChatColor;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 
@@ -15,11 +13,11 @@ public class Cooldowns {
         cooldowns = new HashMap<>();
     }
 
-    public void setCooldown(@NotNull final String uuid) {
+    public void setCooldown(final String uuid) {
         cooldowns.put(uuid, (int)System.currentTimeMillis()/1000);
     }
 
-    public Boolean isOnCooldown (@NotNull final String uuid) {
+    public Boolean isOnCooldown (final String uuid) {
         if (!cooldowns.containsKey(uuid)) return false;
 
         if (cooldowns.containsKey(uuid)) {
@@ -34,11 +32,11 @@ public class Cooldowns {
         return false;
     }
 
-    public void unsetCooldown(@NotNull final String uuid) {
+    public void unsetCooldown(final String uuid) {
         cooldowns.remove(uuid);
     }
 
-    public Integer getCooldown (@NotNull final String uuid) {
+    public Integer getCooldown (final String uuid) {
         if (!cooldowns.containsKey(uuid)) return null;
         return plugin.getHideItemConfig().COOLDOWN() - (((int) System.currentTimeMillis() / 1000) - cooldowns.get(uuid));
     }

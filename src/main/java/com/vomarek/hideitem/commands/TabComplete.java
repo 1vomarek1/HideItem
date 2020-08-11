@@ -4,7 +4,6 @@ import com.vomarek.hideitem.HideItem;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.List;
@@ -12,7 +11,7 @@ import java.util.List;
 public class TabComplete implements TabCompleter {
     private HideItem plugin;
 
-    public TabComplete(@NotNull final HideItem plugin) {
+    public TabComplete(final HideItem plugin) {
         this.plugin = plugin;
     }
 

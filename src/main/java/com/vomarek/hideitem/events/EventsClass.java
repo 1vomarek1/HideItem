@@ -36,7 +36,7 @@ public class EventsClass implements Listener {
         try {
 
             if (Integer.parseInt(plugin.getServer().getBukkitVersion().split("\\.")[1]) > 8) {
-                if (!event.getHand().equals(EquipmentSlot.HAND)) return;
+                if (event.getHand() != null && !event.getHand().equals(EquipmentSlot.HAND)) return;
             }
 
         } catch (final Exception ignored) {}

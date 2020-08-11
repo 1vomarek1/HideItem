@@ -4,8 +4,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.vomarek.hideitem</groupId>
-    <artifactId>HideItem</artifactId>
+    <groupId>com.vomarek</groupId>
+    <artifactId>hideitem</artifactId>
     <version>3.0.4</version>
     <packaging>jar</packaging>
 
@@ -82,23 +82,10 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>org.jetbrains</groupId>
-            <artifactId>annotations</artifactId>
-            <version>19.0.0</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
             <groupId>org.bstats</groupId>
             <artifactId>bstats-bukkit</artifactId>
             <version>1.7</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>
-
-    <distributionManagement>
-        <repository>
-            <id>nexusrepo</id>
-            <url>https://repo.vomarek.com/repository/hideitem/</url>
-        </repository>
-    </distributionManagement>
 </project>
