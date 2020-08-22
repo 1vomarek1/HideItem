@@ -4,6 +4,7 @@ import com.vomarek.hideitem.HideItem;
 import com.vomarek.hideitem.data.database.Database;
 import com.vomarek.hideitem.data.database.MySQL;
 import com.vomarek.hideitem.data.database.SQLite;
+import com.vomarek.spigotutils.nbt.NBTTags;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.configuration.InvalidConfigurationException;
@@ -45,6 +46,9 @@ public class HideItemConfig {
     private String HIDE_MESSAGE;
     private String COOLDOWN_MESSAGE;
     private String NO_PERMISSION_MESSAGE;
+    private String SHOWN_FOR_MESSAGE;
+    private String HIDDEN_FOR_MESSAGE;
+    private String TOGGLED_FOR_MESSAGE;
 
     /* Commands */
     private Boolean USE_ALIASES;
@@ -181,7 +185,7 @@ public class HideItemConfig {
         HIDE_ITEM = new ItemStack(hideMaterial, 1, (byte) Integer.parseInt(config.getString("hide-item.material", "INK_SACK:0").split(":")[1]));
         ItemMeta hideItemMeta = HIDE_ITEM.getItemMeta();
 
-        hideItemMeta.setDisplayName(ChatColor.translateAlternateColorCodes('&', config.getString("hide-item.name", "&eHide Players &7(Shown)")));
+        hideItemMeta.setDisplayName(config.getString("hide-item.name", "&eHide Players &7(Shown)"));
 
         ArrayList<String> hideItemLore = (ArrayList<String>) config.getStringList("hide-item.lore");
 
@@ -197,6 +201,7 @@ public class HideItemConfig {
 
         if (config.getBoolean("hide-item.enchanted", false)) HIDE_ITEM.addUnsafeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 1);
 
+        HIDE_ITEM = NBTTags.addNBTTag(HIDE_ITEM, "HIDE_ITEM", true);
 
         // Show Item
         Material showMaterial;
@@ -210,7 +215,7 @@ public class HideItemConfig {
         SHOW_ITEM = new ItemStack(showMaterial, 1, (byte) Integer.parseInt(config.getString("show-item.material", "INK_SACK:0").split(":")[1]));
         ItemMeta showItemMeta = SHOW_ITEM.getItemMeta();
 
-        showItemMeta.setDisplayName(ChatColor.translateAlternateColorCodes('&', config.getString("show-item.name", "&eHide Players &7(Hidden)")));
+        showItemMeta.setDisplayName(config.getString("show-item.name", "&eHide Players &7(Hidden)"));
 
         ArrayList<String> showItemLore = (ArrayList<String>) config.getStringList("show-item.lore");
 
@@ -225,6 +230,13 @@ public class HideItemConfig {
         SHOW_ITEM.setItemMeta(showItemMeta);
 
         if (config.getBoolean("show-item.enchanted", false)) SHOW_ITEM.addUnsafeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 1);
+
+
+        HIDE_ITEM = NBTTags.addNBTTag(HIDE_ITEM, "SHOW_ITEM", true);
+
+        //
+        // Other settings
+        //
 
         FIRST_FREE_SLOT = config.getBoolean("first-free-slot", false);
         ITEM_SLOT = config.getInt("slot", 9);
@@ -241,6 +253,9 @@ public class HideItemConfig {
         HIDE_MESSAGE = config.getString("hide-message", "&aAll players are now hidden!");
         COOLDOWN_MESSAGE = config.getString("cooldown-message", "&eYou are in cooldown for %cooldown% more seconds.");
         NO_PERMISSION_MESSAGE = config.getString("no-permission-message", "&cYou don't have permission to do this!");
+        SHOWN_FOR_MESSAGE = config.getString("shown-for-message", "&aYou have successfully hidden other players for %player%!");
+        HIDDEN_FOR_MESSAGE = config.getString("hidden-for-message", "&aYou have successfully shown other players for %player%!");
+        TOGGLED_FOR_MESSAGE = config.getString("toggled-for-message", "&aYou have successfully toggled visibility of other players for %player%!");
 
         //
         // Commands & aliases
@@ -300,20 +315,8 @@ public class HideItemConfig {
         return HIDE_ITEM;
     }
 
-    public boolean isHideItem(ItemStack i) {
-        if (!i.hasItemMeta()) return false;
-
-        return i.equals(HIDE_ITEM);
-    }
-
     public ItemStack SHOW_ITEM() {
         return SHOW_ITEM;
-    }
-
-    public boolean isShowItem(ItemStack i) {
-        if (!i.hasItemMeta()) return false;
-
-        return i.equals(SHOW_ITEM);
     }
 
     public Boolean FIRST_FREE_SLOT() {
@@ -346,6 +349,18 @@ public class HideItemConfig {
 
     public String NO_PERMISSION_MESSAGE() {
         return NO_PERMISSION_MESSAGE;
+    }
+
+    public String SHOWN_FOR_MESSAGE() {
+        return SHOWN_FOR_MESSAGE;
+    }
+
+    public String HIDDEN_FOR_MESSAGE() {
+        return HIDDEN_FOR_MESSAGE;
+    }
+
+    public String TOGGLED_FOR_MESSAGE() {
+        return TOGGLED_FOR_MESSAGE;
     }
 
     //

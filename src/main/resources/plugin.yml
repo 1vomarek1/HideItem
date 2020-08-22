@@ -29,7 +29,13 @@ permissions:
       description: "Permission to see vanished people after unhiding players"
     show:
       description: "Permission to use command to show all players"
+    show.other:
+      description: "Permission to show players for other players"
     hide:
       description: "Permission to use command to hide all players"
+    hide.other:
+      description: "Permission to show players for other players"
     toggle:
       description: "Permission to use command to toggle all players"
+    toggle.other:
+      description: "Permission to show players for other players"

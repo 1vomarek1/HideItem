@@ -7,6 +7,7 @@ import com.vomarek.hideitem.data.PlayerState;
 import com.vomarek.hideitem.data.PlayersHidden;
 import com.vomarek.hideitem.events.EventsClass;
 import com.vomarek.hideitem.util.Cooldowns;
+import com.vomarek.hideitem.util.HideItemStack;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.InvalidConfigurationException;
@@ -19,16 +20,24 @@ import java.io.IOException;
 public class HideItem extends JavaPlugin {
     private static HideItem plugin;
 
+    private boolean papi;
+
     private HideItemConfig config;
     private YamlConfiguration data;
 
     private PlayerState playerState;
     private PlayersHidden playersHidden;
     private Cooldowns cooldowns;
+    private HideItemStack hideItemStack;
 
     @Override
     public void onEnable() {
         plugin = this;
+
+        papi = getServer().getPluginManager().getPlugin("PlaceholderAPI") != null;
+
+        if (papi) getServer().getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', "&3&lHideItem &7|&b PlaceholderAPI&f found!"));
+        else getServer().getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', "&3&lHideItem &7|&b PlaceholderAPI&c not found&f! If you wish to use placeholders download it!"));
 
         Metrics metrics = new Metrics(this, 7853);
 
@@ -71,6 +80,7 @@ public class HideItem extends JavaPlugin {
         } else data = null;
 
         playerState = new PlayerState(plugin);
+        hideItemStack = new HideItemStack(plugin);
 
         cooldowns = new Cooldowns(plugin);
 
@@ -87,9 +97,20 @@ public class HideItem extends JavaPlugin {
         plugin.getServer().getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', "&3&lHideItem &7| &fHideItem has been disabled!"));
     }
 
+    /**
+     * This method is used to get instance of HideItem plugin's main class.
+     *
+     * @return instance of HideItem's main class
+     */
     public static HideItem getPlugin () {
         return plugin;
     }
+
+    public boolean getPAPI() {
+        return papi;
+    }
+
+    //region Configuration & data storage
 
     public HideItemConfig getHideItemConfig() {
         return config;
@@ -99,18 +120,10 @@ public class HideItem extends JavaPlugin {
         return data;
     }
 
-    public PlayerState getPlayerState() {
-        return playerState;
-    }
-
-    public Cooldowns getCooldowns() {
-        return cooldowns;
-    }
-
     public void configReloaded() {
         playerState = new PlayerState(plugin);
 
-        
+
         if (config.STORAGE_METHOD().equalsIgnoreCase("file")) {
 
             final File file = new File(getDataFolder(), "data.yml");
@@ -130,7 +143,26 @@ public class HideItem extends JavaPlugin {
         } else data = null;
     }
 
+    //endregion
+
+    //region Plugins data
+
+    public PlayerState getPlayerState() {
+        return playerState;
+    }
+
+    public Cooldowns getCooldowns() {
+        return cooldowns;
+    }
+
     public PlayersHidden getPlayersHidden() {
         return playersHidden;
     }
+
+    public HideItemStack getHideItemStack() {
+        return hideItemStack;
+    }
+
+    //endregion
+
 }

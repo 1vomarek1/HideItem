@@ -4,6 +4,8 @@ import com.vomarek.hideitem.data.PlayerState;
 import com.vomarek.hideitem.HideItem;
 import com.vomarek.hideitem.util.HidingItem;
 import com.vomarek.hideitem.util.PlayerHiding;
+import com.vomarek.spigotutils.nbt.NBTTags;
+import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -16,6 +18,7 @@ import org.bukkit.event.player.*;
 import org.bukkit.event.server.TabCompleteEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Arrays;
@@ -46,7 +49,7 @@ public class EventsClass implements Listener {
 
         ItemStack i = event.getItem();
 
-        if (!plugin.getHideItemConfig().isHideItem(i) && !plugin.getHideItemConfig().isShowItem(i)) return;
+        if (!NBTTags.getBoolean(i, "HIDE_ITEM") && !NBTTags.getBoolean(i, "SHOW_ITEM")) return;
 
         event.setCancelled(true);
 
@@ -129,7 +132,7 @@ public class EventsClass implements Listener {
             i = event.getPlayer().getInventory().getItemInHand();
         }
 
-        if (plugin.getHideItemConfig().isShowItem(i) || plugin.getHideItemConfig().isHideItem(i)) event.setCancelled(true);
+        if (NBTTags.getBoolean(i, "SHOW_ITEM") || NBTTags.getBoolean(i, "HIDE_ITEM")) event.setCancelled(true);
     }
 
 
@@ -152,11 +155,21 @@ public class EventsClass implements Listener {
 
         if (plugin.getHideItemConfig().DISABLE_ITEMS()) return;
 
+        final ItemMeta iMeta = hideItem.getItemMeta();
+
+        String name = iMeta.getDisplayName();
+
+        if (plugin.getPAPI()) name = PlaceholderAPI.setPlaceholders(player, name);
+
+        iMeta.setDisplayName(ChatColor.translateAlternateColorCodes('&', name));
+
+        hideItem.setItemMeta(iMeta);
+
         // Give hide / show item to correct slot
         if (plugin.getHideItemConfig().FIRST_FREE_SLOT()) {
             for (ItemStack i : player.getInventory().getContents()) {
                 if (i == null) continue;
-                if (plugin.getHideItemConfig().isHideItem(i) || plugin.getHideItemConfig().isShowItem(i)) return;
+                if (NBTTags.getBoolean(i, "HIDE_ITEM") || NBTTags.getBoolean(i, "SHOW_ITEM")) return;
             }
 
             player.getInventory().addItem(hideItem);
@@ -199,7 +212,7 @@ public class EventsClass implements Listener {
 
         final ItemStack i = event.getItemDrop().getItemStack();
 
-        event.setCancelled(plugin.getHideItemConfig().isHideItem(i) || plugin.getHideItemConfig().isShowItem(i));
+        event.setCancelled(NBTTags.getBoolean(i, "HIDE_ITEM") || NBTTags.getBoolean(i, "SHOW_ITEM"));
 
     }
 
@@ -215,7 +228,7 @@ public class EventsClass implements Listener {
 
             if (!i.hasItemMeta()) continue;
 
-            if (!plugin.getHideItemConfig().isHideItem(i) && !plugin.getHideItemConfig().isShowItem(i)) continue;
+            if (!NBTTags.getBoolean(i, "HIDE_ITEM") && !NBTTags.getBoolean(i, "SHOW_ITEM")) continue;
 
             event.getDrops().remove(i);
         }
@@ -236,6 +249,16 @@ public class EventsClass implements Listener {
 
         final ItemStack hideItem = hasHiddenPlayers ? plugin.getHideItemConfig().SHOW_ITEM() : plugin.getHideItemConfig().HIDE_ITEM();
 
+        final ItemMeta iMeta = hideItem.getItemMeta();
+
+        String name = iMeta.getDisplayName();
+
+        if (plugin.getPAPI()) name = PlaceholderAPI.setPlaceholders(player, name);
+
+        iMeta.setDisplayName(ChatColor.translateAlternateColorCodes('&', name));
+
+        hideItem.setItemMeta(iMeta);
+
         if (plugin.getHideItemConfig().FIRST_FREE_SLOT()) {
             player.getInventory().addItem(hideItem);
         } else {
@@ -250,13 +273,13 @@ public class EventsClass implements Listener {
 
         if (event.getCurrentItem() != null) {
 
-            if (plugin.getHideItemConfig().isShowItem(event.getCurrentItem()) || plugin.getHideItemConfig().isHideItem(event.getCurrentItem())) {
+            if (NBTTags.getBoolean(event.getCurrentItem(), "SHOW_ITEM") || NBTTags.getBoolean(event.getCurrentItem(), "HIDE_ITEM")) {
                 event.setCancelled(true);
             }
         }
 
         if (event.getCursor() != null) {
-            if (plugin.getHideItemConfig().isShowItem(event.getCursor()) || plugin.getHideItemConfig().isHideItem(event.getCursor())) {
+            if (NBTTags.getBoolean(event.getCursor(), "SHOW_ITEM") || NBTTags.getBoolean(event.getCursor(), "HIDE_ITEM")) {
                 event.setCancelled(true);
             }
         }

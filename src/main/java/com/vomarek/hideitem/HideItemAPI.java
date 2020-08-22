@@ -1,6 +1,5 @@
 package com.vomarek.hideitem;
 
-import com.vomarek.hideitem.util.HidingItem;
 import com.vomarek.hideitem.util.PlayerHiding;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -21,7 +20,7 @@ public class HideItemAPI {
     public static void setHiddenState(final Player player, final Boolean hidden) {
         if (hidden) {
             new PlayerHiding(plugin).hide(player);
-            new HidingItem(plugin).giveHideItem(player);
+            plugin.getHideItemStack().updateItems(player);
             new BukkitRunnable() {
 
                 @Override
@@ -31,7 +30,7 @@ public class HideItemAPI {
             }.runTaskAsynchronously(plugin);
         } else {
             new PlayerHiding(plugin).show(player);
-            new HidingItem(plugin).giveShowItem(player);
+            plugin.getHideItemStack().updateItems(player);
             new BukkitRunnable() {
 
                 @Override
@@ -50,7 +49,7 @@ public class HideItemAPI {
      */
     public static void hideFor(final Player player) {
         new PlayerHiding(plugin).hide(player);
-        new HidingItem(plugin).giveHideItem(player);
+        plugin.getHideItemStack().updateItems(player);
         new BukkitRunnable() {
 
             @Override
@@ -69,7 +68,7 @@ public class HideItemAPI {
      */
     public static void showFor(final Player player) {
         new PlayerHiding(plugin).show(player);
-        new HidingItem(plugin).giveShowItem(player);
+        plugin.getHideItemStack().updateItems(player);
         new BukkitRunnable() {
 
             @Override
@@ -88,8 +87,16 @@ public class HideItemAPI {
         final ItemStack hideitem = plugin.getHideItemConfig().HIDE_ITEM();
         final ItemStack showitem = plugin.getHideItemConfig().SHOW_ITEM();
 
-        while (true) if (player.getInventory().removeItem(hideitem).size() != 0) break;
-        while (true) if (player.getInventory().removeItem(showitem).size() != 0) break;
+        for (int i = 0; i < 27; i++) {
+            final ItemStack item = player.getInventory().getItem(i);
+
+            if (item == null) continue;
+            if (!plugin.getHideItemStack().isHideItem(item)) continue;
+
+            player.getInventory().removeItem(item);
+        }
+
+        player.updateInventory();
     }
 
 }

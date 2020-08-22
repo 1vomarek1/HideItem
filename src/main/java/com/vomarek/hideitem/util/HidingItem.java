@@ -1,6 +1,7 @@
 package com.vomarek.hideitem.util;
 
 import com.vomarek.hideitem.HideItem;
+import com.vomarek.spigotutils.nbt.NBTTags;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -19,7 +20,7 @@ public class HidingItem {
 
             if (item == null) continue;
 
-            if (plugin.getHideItemConfig().isHideItem(item) || plugin.getHideItemConfig().isShowItem(item)) {
+            if (NBTTags.getBoolean(item, "HIDE_ITEM") || NBTTags.getBoolean(item, "SHOW_ITEM")) {
 
                 final ItemStack hideItem = plugin.getHideItemConfig().HIDE_ITEM();
 
@@ -37,7 +38,7 @@ public class HidingItem {
 
             if (item == null) continue;
 
-            if (plugin.getHideItemConfig().isHideItem(item) || plugin.getHideItemConfig().isShowItem(item)) {
+            if (NBTTags.getBoolean(item, "HIDE_ITEM") || NBTTags.getBoolean(item, "SHOW_ITEM")) {
 
                 final ItemStack hideItem = plugin.getHideItemConfig().SHOW_ITEM();
 

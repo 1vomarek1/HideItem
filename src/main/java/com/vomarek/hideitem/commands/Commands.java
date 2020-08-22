@@ -31,6 +31,12 @@ public class Commands implements CommandExecutor {
                 if (args[0].equalsIgnoreCase("reload")) return reloadConfig(sender);
                 if (args[0].equalsIgnoreCase("info")) return info(sender);
                 if (!plugin.getHideItemConfig().DISABLE_COMMANDS()) {
+                    if (args.length >= 2 && plugin.getServer().getPlayer(args[1]) != null) {
+                        if (args[0].equalsIgnoreCase("hide")) return hideFor(sender, plugin.getServer().getPlayer(args[1]));
+                        if (args[0].equalsIgnoreCase("show")) return showFor(sender, plugin.getServer().getPlayer(args[1]));
+                        if (args[0].equalsIgnoreCase("toggle")) return toggleFor(sender, plugin.getServer().getPlayer(args[1]));
+                    }
+
                     if (args[0].equalsIgnoreCase("hide")) return hide(sender);
                     if (args[0].equalsIgnoreCase("show")) return show(sender);
                     if (args[0].equalsIgnoreCase("toggle")) return toggle(sender);
@@ -96,6 +102,51 @@ public class Commands implements CommandExecutor {
         return true;
     }
 
+    private boolean toggleFor(CommandSender sender, final Player player) {
+        if (!(sender instanceof Player)) {
+            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&3&lHideItem &7| &fOnly players can use this command!"));
+            return true;
+        }
+        if (!sender.hasPermission("hideitem.toggle.other") && plugin.getHideItemConfig().REQUIRE_PERMISSION_FOR_COMMANDS()) {
+            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getHideItemConfig().NO_PERMISSION_MESSAGE()));
+            return true;
+        }
+
+        final PlayerState playerState = plugin.getPlayerState();
+        String state = playerState.getPlayerState(player);
+
+
+        if (state == null) state = plugin.getHideItemConfig().DEFAULT_SHOWN() ? "shown" : "hidden";
+
+
+        if (state.equalsIgnoreCase("hidden")) {
+
+            new PlayerHiding(plugin).show(player);
+
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getHideItemConfig().SHOW_MESSAGE()));
+
+
+            if (!plugin.getHideItemConfig().DISABLE_ITEMS()) new HidingItem(plugin).giveHideItem(player);
+
+            playerState.setPlayerState(player, "shown");
+
+        } else if (state.equalsIgnoreCase("shown")){
+
+            new PlayerHiding(plugin).hide(player);
+
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getHideItemConfig().HIDE_MESSAGE()));
+
+
+            if (!plugin.getHideItemConfig().DISABLE_ITEMS()) new HidingItem(plugin).giveShowItem(player);
+
+            playerState.setPlayerState(player, "hidden");
+        }
+
+        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getHideItemConfig().TOGGLED_FOR_MESSAGE()).replace("%player%", player.getDisplayName()));
+
+        return true;
+    }
+
     private boolean show(CommandSender sender) {
         if (!(sender instanceof Player)) {
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&3&lHideItem &7| &fOnly players can use this command!"));
@@ -128,6 +179,31 @@ public class Commands implements CommandExecutor {
         return true;
     }
 
+    private boolean showFor(final CommandSender sender, final Player player) {
+        if (!(sender instanceof Player)) {
+            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&3&lHideItem &7| &fOnly players can use this command!"));
+            return true;
+        }
+        if (!sender.hasPermission("hideitem.show.other") && plugin.getHideItemConfig().REQUIRE_PERMISSION_FOR_COMMANDS()) {
+            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getHideItemConfig().NO_PERMISSION_MESSAGE()));
+            return true;
+        }
+
+        PlayerState playerState = plugin.getPlayerState();
+
+        new PlayerHiding(plugin).show(player);
+
+        player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getHideItemConfig().SHOW_MESSAGE()));
+
+        if (!plugin.getHideItemConfig().DISABLE_ITEMS()) new HidingItem(plugin).giveHideItem(player);
+
+        playerState.setPlayerState(player, "shown");
+
+        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getHideItemConfig().SHOWN_FOR_MESSAGE()).replace("%player%", player.getDisplayName()));
+
+        return true;
+    }
+
     private boolean hide(CommandSender sender) {
         if (!(sender instanceof Player)) {
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&3&lHideItem &7| &fOnly players can use this command!"));
@@ -156,6 +232,31 @@ public class Commands implements CommandExecutor {
         if (!plugin.getHideItemConfig().DISABLE_ITEMS()) new HidingItem(plugin).giveShowItem(player);
 
         playerState.setPlayerState(player, "hidden");
+
+        return true;
+    }
+
+    private boolean hideFor(final CommandSender sender, final Player player) {
+        if (!(sender instanceof Player)) {
+            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&3&lHideItem &7| &fOnly players can use this command!"));
+            return true;
+        }
+        if (!sender.hasPermission("hideitem.hide.other") && plugin.getHideItemConfig().REQUIRE_PERMISSION_FOR_COMMANDS()) {
+            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getHideItemConfig().NO_PERMISSION_MESSAGE()));
+            return true;
+        }
+
+        PlayerState playerState = plugin.getPlayerState();
+
+        new PlayerHiding(plugin).hide(player);
+
+        player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getHideItemConfig().HIDE_MESSAGE()));
+
+        if (!plugin.getHideItemConfig().DISABLE_ITEMS()) new HidingItem(plugin).giveHideItem(player);
+
+        playerState.setPlayerState(player, "hidden");
+
+        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getHideItemConfig().HIDDEN_FOR_MESSAGE()).replace("%player%", player.getDisplayName()));
 
         return true;
     }
