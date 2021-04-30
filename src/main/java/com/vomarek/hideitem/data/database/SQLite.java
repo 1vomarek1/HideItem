@@ -24,7 +24,7 @@ public class SQLite implements Database {
 
             final Statement stmt = conn.createStatement();
 
-            final String sql = "CREATE TABLE IF NOT EXISTS HideItem (player VARCHAR(16) NOT NULL, state VARCHAR(16) , PRIMARY KEY ( player ))";
+            final String sql = "CREATE TABLE IF NOT EXISTS HideItem (player VARCHAR(36) NOT NULL, state VARCHAR(16) , PRIMARY KEY ( player ))";
             stmt.executeUpdate(sql);
 
             stmt.close();
