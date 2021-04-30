@@ -38,7 +38,7 @@ public class MySQL implements Database {
 
             String sql = "CREATE DATABASE IF NOT EXISTS "+DATABASE;
             stmt.executeUpdate(sql);
-            sql = "CREATE TABLE IF NOT EXISTS "+DATABASE+"."+TABLE+" (player VARCHAR(16) NOT NULL, state VARCHAR(16) , PRIMARY KEY ( player ))";
+            sql = "CREATE TABLE IF NOT EXISTS "+DATABASE+"."+TABLE+" (player VARCHAR(36) NOT NULL, state VARCHAR(16) , PRIMARY KEY ( player ))";
             stmt.executeUpdate(sql);
 
             stmt.close();
